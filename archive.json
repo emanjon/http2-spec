@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-01-21T01:30:37.155729+00:00",
+  "timestamp": "2021-01-24T01:30:34.604089+00:00",
   "repo": "httpwg/http2-spec",
   "labels": [
     {
@@ -29761,24 +29761,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTQ0NTcxOTM4",
       "title": "Add .editorconfig",
       "url": "https://github.com/httpwg/http2-spec/pull/801",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This didn't help a lot with pull requests in QUIC, but it did help people who made regular contributions.",
       "createdAt": "2020-12-23T05:07:33Z",
-      "updatedAt": "2020-12-23T22:21:05Z",
+      "updatedAt": "2021-01-21T23:13:47Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "0277adffeb4dfa0b02608a1b88f0825e9a39feb7",
       "headRepository": "martinthomson/http2v2",
       "headRefName": "editorconfig",
       "headRefOid": "a941b36657db8b72550994f1f0cfa4c6ebedc5b5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-01-21T23:13:43Z",
+      "mergedAt": "2021-01-21T23:13:43Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "1a422ddc3ad44dfae5e784ff5b5c9975ddbe3fd3"
+      },
       "comments": [
         {
           "author": "reschke",
@@ -29807,6 +29809,248 @@
           "body": "It's hard to see any sense in which this requires approval, but sure why not.",
           "createdAt": "2020-12-23T10:52:48Z",
           "updatedAt": "2020-12-23T10:52:48Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 805,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTU4OTcxMjU3",
+      "title": "Adding myself as editor",
+      "url": "https://github.com/httpwg/http2-spec/pull/805",
+      "state": "MERGED",
+      "author": "Lukasa",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [
+        "editorial"
+      ],
+      "body": "Wherein I sign a deal with the devil.",
+      "createdAt": "2021-01-21T08:29:43Z",
+      "updatedAt": "2021-01-21T22:28:43Z",
+      "baseRepository": "httpwg/http2-spec",
+      "baseRefName": "main",
+      "baseRefOid": "0277adffeb4dfa0b02608a1b88f0825e9a39feb7",
+      "headRepository": "Lukasa/http2-spec",
+      "headRefName": "cb-add-editor",
+      "headRefOid": "c6f60bf80e612e71ffecf897756305337fe96cc9",
+      "closedAt": "2021-01-21T22:28:37Z",
+      "mergedAt": "2021-01-21T22:28:37Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "23da1a83b2a809c56d5ed0a9be6ac90ba245c4ea"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 806,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTU4OTc5MTE4",
+      "title": "Remove use of \"payload\" for message bodies.",
+      "url": "https://github.com/httpwg/http2-spec/pull/806",
+      "state": "OPEN",
+      "author": "Lukasa",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This patch also changes our text to be consistent in using \"frame\r\npayload\" as a two-word phrase.\r\n\r\nNote that this patch now sometimes leaves us with the text \"frame payload of an X frame\". Shout if that seems too clumsy and I can remove the last word \"frame\", though I think it has the advantage of being extremely clear.\r\n\r\nResolves #803.",
+      "createdAt": "2021-01-21T08:43:13Z",
+      "updatedAt": "2021-01-23T10:09:46Z",
+      "baseRepository": "httpwg/http2-spec",
+      "baseRefName": "main",
+      "baseRefOid": "0277adffeb4dfa0b02608a1b88f0825e9a39feb7",
+      "headRepository": "Lukasa/http2-spec",
+      "headRefName": "cb-cleanup-payload",
+      "headRefOid": "3bc7f7859ff6057c042385597c9367dcc0dd9b63",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTczNzkwMjIz",
+          "commit": {
+            "abbreviatedOid": "acab4f9"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-01-21T22:30:18Z",
+          "updatedAt": "2021-01-21T22:33:09Z",
+          "comments": [
+            {
+              "originalPosition": 187,
+              "body": "Optional:\r\n```suggestion\r\n              zero or more <xref target=\"DATA\" format=\"none\">DATA</xref> frames containing the message content (see <xref target=\"draft-ietf-httpbis-semantics-14\" section=\"6.4\"/>), and\r\n```\r\n",
+              "createdAt": "2021-01-21T22:30:19Z",
+              "updatedAt": "2021-01-22T17:20:59Z"
+            },
+            {
+              "originalPosition": 245,
+              "body": "Separately, I'm wondering if this \"MUST NOT\" is better as \"cannot\" to match the \"is not possible\" below.",
+              "createdAt": "2021-01-21T22:31:25Z",
+              "updatedAt": "2021-01-22T17:20:59Z"
+            },
+            {
+              "originalPosition": 303,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2021-01-21T22:32:07Z",
+              "updatedAt": "2021-01-22T17:20:59Z"
+            },
+            {
+              "originalPosition": 318,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2021-01-21T22:32:18Z",
+              "updatedAt": "2021-01-22T17:20:59Z"
+            },
+            {
+              "originalPosition": 334,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2021-01-21T22:32:29Z",
+              "updatedAt": "2021-01-22T17:20:59Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTc0NDYxNDIz",
+          "commit": {
+            "abbreviatedOid": "acab4f9"
+          },
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-01-22T17:20:18Z",
+          "updatedAt": "2021-01-22T17:20:19Z",
+          "comments": [
+            {
+              "originalPosition": 245,
+              "body": "Hmm, which \"is not possible\"? I don't see an is-not-possible anywhere near here.",
+              "createdAt": "2021-01-22T17:20:18Z",
+              "updatedAt": "2021-01-22T17:20:59Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTc0NzIzMjQ3",
+          "commit": {
+            "abbreviatedOid": "3bc7f78"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-01-23T01:56:52Z",
+          "updatedAt": "2021-01-23T01:56:53Z",
+          "comments": [
+            {
+              "originalPosition": 245,
+              "body": "> It is not possible to push a response to a request that includes message content.\r\n\r\nIn the next bit of diff.  Not as close in the file though.",
+              "createdAt": "2021-01-23T01:56:52Z",
+              "updatedAt": "2021-01-23T01:56:53Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTc0ODM2NDcx",
+          "commit": {
+            "abbreviatedOid": "3bc7f78"
+          },
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-01-23T10:09:45Z",
+          "updatedAt": "2021-01-23T10:09:46Z",
+          "comments": [
+            {
+              "originalPosition": 245,
+              "body": "Ah, I see. My mistake for looking through the file. :wink: But I see what you're driving at.\r\n\r\nI think we need at least one normative statement that promised requests must not contain content. Otherwise, saying \"promised requests cannot include any content\" invites the question \"well, why not?\". Having at least one normative statement means the answer is \"because we said so\" and that's a sufficiently good answer for spec purposes. So I'm inclined to leave it.",
+              "createdAt": "2021-01-23T10:09:46Z",
+              "updatedAt": "2021-01-23T10:09:46Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 807,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTU4OTgzNjU2",
+      "title": "Defer to the core spec for connection-specific headers",
+      "url": "https://github.com/httpwg/http2-spec/pull/807",
+      "state": "OPEN",
+      "author": "Lukasa",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Resolves #804.",
+      "createdAt": "2021-01-21T08:50:42Z",
+      "updatedAt": "2021-01-21T22:24:21Z",
+      "baseRepository": "httpwg/http2-spec",
+      "baseRefName": "main",
+      "baseRefOid": "0277adffeb4dfa0b02608a1b88f0825e9a39feb7",
+      "headRepository": "Lukasa/http2-spec",
+      "headRefName": "cb-defer-to-core-for-connection",
+      "headRefOid": "7537dd7a40739c9324fd05e9e1da81731a2361e5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Note: this patch depends on #806 for the xref. I don't want to add it here as well because then they won't merge cleanly.",
+          "createdAt": "2021-01-21T09:26:27Z",
+          "updatedAt": "2021-01-21T09:26:27Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "WFM.  We can keep this open until https://github.com/quicwg/base-drafts/pull/4747 lands so that the language stays coherent between the two specs.",
+          "createdAt": "2021-01-21T22:24:21Z",
+          "updatedAt": "2021-01-21T22:24:21Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 808,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTU5MDE0MTg2",
+      "title": "Remove definition of 421 and point to core.",
+      "url": "https://github.com/httpwg/http2-spec/pull/808",
+      "state": "OPEN",
+      "author": "Lukasa",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Resolves #802.\r\n\r\nDepends on #806 for the xref, won't build cleanly without it. However, I don't want to add the xref here as it would prevent a clean merge.",
+      "createdAt": "2021-01-21T09:34:52Z",
+      "updatedAt": "2021-01-21T22:34:00Z",
+      "baseRepository": "httpwg/http2-spec",
+      "baseRefName": "main",
+      "baseRefOid": "0277adffeb4dfa0b02608a1b88f0825e9a39feb7",
+      "headRepository": "Lukasa/http2-spec",
+      "headRefName": "cb-421",
+      "headRefOid": "991df681b1d0e777b36c11e811978b78ef6faf94",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTczNzkyMzI4",
+          "commit": {
+            "abbreviatedOid": "991df68"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Let's get #806 in first :)",
+          "createdAt": "2021-01-21T22:34:00Z",
+          "updatedAt": "2021-01-21T22:34:00Z",
           "comments": []
         }
       ]
