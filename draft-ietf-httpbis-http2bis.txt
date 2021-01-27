@@ -10,7 +10,7 @@ Expires: 31 July 2021                                    27 January 2021
 
 
              Hypertext Transfer Protocol Version 2 (HTTP/2)
-                    draft-ietf-http-http2bis-latest
+                   draft-ietf-httpbis-http2bis-latest
 
 Abstract
 
@@ -34,7 +34,7 @@ Discussion Venues
    This note is to be removed before publishing as an RFC.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/martinthomson/http2v2.
+   https://github.com/httpwg/http2-spec.
 
 Status of This Memo
 
