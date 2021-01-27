@@ -4,13 +4,13 @@
 
 HTTPbis                                                  M. Thomson, Ed.
 Internet-Draft                                                   Mozilla
-Obsoletes: 7540 (if approved)                           21 December 2020
-Intended status: Standards Track                                        
-Expires: 24 June 2021
+Obsoletes: 7540 (if approved)                           C. Benfield, Ed.
+Intended status: Standards Track                              Apple Inc.
+Expires: 31 July 2021                                    27 January 2021
 
 
              Hypertext Transfer Protocol Version 2 (HTTP/2)
-                 draft-thomson-httpbis-http2bis-latest
+                    draft-ietf-http-http2bis-latest
 
 Abstract
 
@@ -51,11 +51,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 June 2021.
+   This Internet-Draft will expire on 31 July 2021.
 
 Copyright Notice
 
-   Copyright (c) 2020 IETF Trust and the persons identified as the
+   Copyright (c) 2021 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -164,7 +164,7 @@ Table of Contents
    Appendix B.  Changes from RFC 7540
    Contributors
    Acknowledgements
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
@@ -4152,10 +4152,16 @@ Acknowledgements
    including a number of implementations as well as numerous technical
    and editorial contributions.
 
-Author's Address
+Authors' Addresses
 
    Martin Thomson (editor)
    Mozilla
    Australia
 
    Email: mt@lowentropy.net
+
+
+   Cory Benfield (editor)
+   Apple Inc.
+
+   Email: cbenfield@apple.com
