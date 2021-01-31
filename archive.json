@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-01-28T00:54:36.178876+00:00",
+  "timestamp": "2021-01-31T00:56:35.301861+00:00",
   "repo": "httpwg/http2-spec",
   "labels": [
     {
@@ -17032,10 +17032,12 @@
       "author": "Scottmitch",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "editorial"
+      ],
       "body": "What is the expected result in terms of stream state and any potential errors that should be generated from the following scenario:\r\n\r\n```\r\n1. Client [PRIORITY, id: 5] -> Server\r\n2. Client [HEADERS, id: 3] -> Server\r\n```\r\n\r\n## Option 1\r\nThe server accepts both frames. Stream `3` is OPEN and stream `5` remains in IDLE.\r\n\r\nThis behavior is verified in the h2spec verification tool via https://github.com/summerwind/h2spec/pull/67. Also see additional discussion there.\r\n\r\n## Option 2\r\nShould the use of stream ID `5` cause stream ID `3` (and all lower stream IDs) to be implicitly closed according to the section-5.1.1 (see [1])? This would mean after the server receives the frame from step (1) it thinks that stream ID `3` has been closed, and when the server receives the frame from step (2) it will respond with a connection error of type PROTOCOL_ERROR (see [2])?\r\n\r\n[1] https://tools.ietf.org/html/rfc7540#section-5.1.1\r\n> The first use of a new stream identifier implicitly closes all\r\n   streams in the \"idle\" state that might have been initiated by that\r\n   peer with a lower-valued stream identifier.\r\n\r\n[2] https://tools.ietf.org/html/rfc7540#section-5.1.1\r\n> An endpoint that\r\n   receives an unexpected stream identifier MUST respond with a\r\n   connection error (Section 5.4.1) of type PROTOCOL_ERROR.",
       "createdAt": "2017-01-14T02:48:59Z",
-      "updatedAt": "2017-01-18T00:20:46Z",
+      "updatedAt": "2021-01-28T09:24:15Z",
       "closedAt": null,
       "comments": [
         {
@@ -17051,6 +17053,13 @@
           "body": "Leaving it open for bookkeeping.",
           "createdAt": "2017-01-18T00:20:46Z",
           "updatedAt": "2017-01-18T00:20:46Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Unsurprisingly, @Lukasa had what I think is [the definitive answer](https://lists.w3.org/Archives/Public/ietf-http-wg/2017JanMar/0049.html) from the thread in support of option 1 here.  We should try to clarify this further by making it clear that PRIORITY doesn't affect stream state (including for lower-numbered streams).\r\n\r\nAs this is now just editorial clarifications, I think that taking this as editorial is justified.  We can revisit if the changes start to look too scary.",
+          "createdAt": "2021-01-28T09:24:15Z",
+          "updatedAt": "2021-01-28T09:24:15Z"
         }
       ]
     },
@@ -30051,6 +30060,48 @@
           "body": "Let's get #806 in first :)",
           "createdAt": "2021-01-21T22:34:00Z",
           "updatedAt": "2021-01-21T22:34:00Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 809,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTYzMDU3NTQ2",
+      "title": "fix IETF area name",
+      "url": "https://github.com/httpwg/http2-spec/pull/809",
+      "state": "MERGED",
+      "author": "reschke",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-01-28T07:54:05Z",
+      "updatedAt": "2021-01-28T08:49:34Z",
+      "baseRepository": "httpwg/http2-spec",
+      "baseRefName": "main",
+      "baseRefOid": "894fb1ede3b6a86bd75ab5376cfb7f7db5b9bd1b",
+      "headRepository": "reschke/http2-spec",
+      "headRefName": "patch-1",
+      "headRefOid": "23f7fc1030225da1faecc5608d5034ff66be7664",
+      "closedAt": "2021-01-28T08:49:34Z",
+      "mergedAt": "2021-01-28T08:49:34Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "f862b6659dc5498ed9f6dccf1fcb83a0e341adf0"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTc4MDkyMzQw",
+          "commit": {
+            "abbreviatedOid": "23f7fc1"
+          },
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-01-28T08:37:13Z",
+          "updatedAt": "2021-01-28T08:37:13Z",
           "comments": []
         }
       ]
