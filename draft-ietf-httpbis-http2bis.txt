@@ -2511,13 +2511,10 @@ Table of Contents
    present in an HTTP/2 request; when it is, it MUST NOT contain any
    value other than "trailers".
 
-   This means that an intermediary transforming an HTTP/1.x message to
-   HTTP/2 will need to remove any header fields nominated by the
-   Connection header field, along with the Connection header field
-   itself.  Such intermediaries SHOULD also remove other connection-
-   specific header fields, such as Keep-Alive, Proxy-Connection,
-   Transfer-Encoding, and Upgrade, even if they are not nominated by the
-   Connection header field.
+   An intermediary transforming a HTTP/1.x message to HTTP/2 MUST remove
+   connection-specific header fields as discussed in Section 7.6.1 of
+   [draft-ietf-httpbis-semantics-14], or their messages will be treated
+   by other HTTP/2 endpoints as malformed (Section 8.1.2.6).
 
       |  Note: HTTP/2 purposefully does not support upgrade to another
       |  protocol.  The handshake methods described in Section 3 are
