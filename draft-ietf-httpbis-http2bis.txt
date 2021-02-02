@@ -6,7 +6,7 @@ HTTPbis                                                  M. Thomson, Ed.
 Internet-Draft                                                   Mozilla
 Obsoletes: 7540 (if approved)                           C. Benfield, Ed.
 Intended status: Standards Track                              Apple Inc.
-Expires: 1 August 2021                                   28 January 2021
+Expires: 6 August 2021                                   2 February 2021
 
 
              Hypertext Transfer Protocol Version 2 (HTTP/2)
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 August 2021.
+   This Internet-Draft will expire on 6 August 2021.
 
 Copyright Notice
 
@@ -308,7 +308,8 @@ Table of Contents
    are defined in Section 2.3 of [RFC7230].  Intermediaries act as both
    client and server at different times.
 
-   The term "payload body" is defined in Section 3.3 of [RFC7230].
+   The term "content" as it applies to message bodies is defined in
+   Section 6.4 of [draft-ietf-httpbis-semantics-14].
 
 3.  Starting HTTP/2
 
@@ -362,13 +363,13 @@ Table of Contents
 
    For example:
 
-     GET / HTTP/1.1
-     Host: server.example.com
-     Connection: Upgrade, HTTP2-Settings
-     Upgrade: h2c
-     HTTP2-Settings: <base64url encoding of HTTP/2 SETTINGS payload>
+   GET / HTTP/1.1
+   Host: server.example.com
+   Connection: Upgrade, HTTP2-Settings
+   Upgrade: h2c
+   HTTP2-Settings: <base64url encoding of HTTP/2 SETTINGS frame payload>
 
-   Requests that contain a payload body MUST be sent in their entirety
+   Requests that contain message content MUST be sent in their entirety
    before the client can send HTTP/2 frames.  This means that a large
    request can block the use of the connection until it is completely
    sent.
@@ -430,12 +431,12 @@ Table of Contents
    field is not present or if more than one is present.  A server MUST
    NOT send this header field.
 
-   The content of the "HTTP2-Settings" header field is the payload of a
-   SETTINGS frame (Section 6.5), encoded as a base64url string (that is,
-   the URL- and filename-safe Base64 encoding described in Section 5 of
-   [RFC4648], with any trailing '=' characters omitted).  The ABNF
-   [RFC5234] production for "token68" is defined in Section 2.1 of
-   [RFC7235].
+   The content of the "HTTP2-Settings" header field is the frame payload
+   of a SETTINGS frame (Section 6.5), encoded as a base64url string
+   (that is, the URL- and filename-safe Base64 encoding described in
+   Section 5 of [RFC4648], with any trailing '=' characters omitted).
+   The ABNF [RFC5234] production for "token68" is defined in Section 2.1
+   of [RFC7235].
 
    Since the upgrade is only intended to apply to the immediate
    connection, a client sending the "HTTP2-Settings" header field MUST
@@ -544,7 +545,7 @@ Table of Contents
 4.1.  Frame Format
 
    All frames begin with a fixed 9-octet header followed by a variable-
-   length payload.
+   length frame payload.
 
     +-----------------------------------------------+
     |                 Length (24)                   |
@@ -603,7 +604,7 @@ Table of Contents
    included when describing frame sizes.
 
       |  Note: Certain frame types, such as PING (Section 6.7), impose
-      |  additional limits on the amount of payload data allowed.
+      |  additional limits on the amount of frame payload data allowed.
 
    An endpoint MUST send an error code of FRAME_SIZE_ERROR if a frame
    exceeds the size defined in SETTINGS_MAX_FRAME_SIZE, exceeds any
@@ -633,8 +634,8 @@ Table of Contents
    header block using HTTP header compression [COMPRESSION].  The
    serialized header block is then divided into one or more octet
    sequences, called header block fragments, and transmitted within the
-   payload of HEADERS (Section 6.2), PUSH_PROMISE (Section 6.6), or
-   CONTINUATION (Section 6.10) frames.
+   frame payload of HEADERS (Section 6.2), PUSH_PROMISE (Section 6.6),
+   or CONTINUATION (Section 6.10) frames.
 
    The Cookie header field [COOKIE] is treated specially by the HTTP
    mapping (see Section 8.1.2.5).
@@ -665,14 +666,14 @@ Table of Contents
    or CONTINUATION frames has the END_HEADERS flag set.  This allows a
    header block to be logically equivalent to a single frame.
 
-   Header block fragments can only be sent as the payload of HEADERS,
-   PUSH_PROMISE, or CONTINUATION frames because these frames carry data
-   that can modify the compression context maintained by a receiver.  An
-   endpoint receiving HEADERS, PUSH_PROMISE, or CONTINUATION frames
-   needs to reassemble header blocks and perform decompression even if
-   the frames are to be discarded.  A receiver MUST terminate the
-   connection with a connection error (Section 5.4.1) of type
-   COMPRESSION_ERROR if it does not decompress a header block.
+   Header block fragments can only be sent as the frame payload of
+   HEADERS, PUSH_PROMISE, or CONTINUATION frames because these frames
+   carry data that can modify the compression context maintained by a
+   receiver.  An endpoint receiving HEADERS, PUSH_PROMISE, or
+   CONTINUATION frames needs to reassemble header blocks and perform
+   decompression even if the frames are to be discarded.  A receiver
+   MUST terminate the connection with a connection error (Section 5.4.1)
+   of type COMPRESSION_ERROR if it does not decompress a header block.
 
 5.  Streams and Multiplexing
 
@@ -1420,7 +1421,7 @@ Table of Contents
 
    DATA frames (type=0x0) convey arbitrary, variable-length sequences of
    octets associated with a stream.  One or more DATA frames are used,
-   for instance, to carry HTTP request or response payloads.
+   for instance, to carry HTTP request or response message contents.
 
    DATA frames MAY also contain padding.  Padding can be added to DATA
    frames to obscure the size of messages.  Padding is a security
@@ -1555,7 +1556,7 @@ Table of Contents
       (E), Stream Dependency, and Weight fields are present; see
       Section 5.3.
 
-   The payload of a HEADERS frame contains a header block fragment
+   The frame payload of a HEADERS frame contains a header block fragment
    (Section 4.3).  A header block that does not fit within a HEADERS
    frame is continued in a CONTINUATION frame (Section 6.10).
 
@@ -1592,7 +1593,7 @@ Table of Contents
 
                       Figure 8: PRIORITY Frame Payload
 
-   The payload of a PRIORITY frame contains the following fields:
+   The frame payload of a PRIORITY frame contains the following fields:
 
    E:  A single-bit flag indicating that the stream dependency is
       exclusive (see Section 5.3).
@@ -1701,7 +1702,7 @@ Table of Contents
 
    ACK (0x1):  When set, bit 0 indicates that this frame acknowledges
       receipt and application of the peer's SETTINGS frame.  When this
-      bit is set, the payload of the SETTINGS frame MUST be empty.
+      bit is set, the frame payload of the SETTINGS frame MUST be empty.
       Receipt of a SETTINGS frame with the ACK flag set and a length
       field value other than 0 MUST be treated as a connection error
       (Section 5.4.1) of type FRAME_SIZE_ERROR.  For more information,
@@ -1723,9 +1724,9 @@ Table of Contents
 
 6.5.1.  SETTINGS Format
 
-   The payload of a SETTINGS frame consists of zero or more parameters,
-   each consisting of an unsigned 16-bit setting identifier and an
-   unsigned 32-bit value.
+   The frame payload of a SETTINGS frame consists of zero or more
+   parameters, each consisting of an unsigned 16-bit setting identifier
+   and an unsigned 32-bit value.
 
     +-------------------------------+
     |       Identifier (16)         |
@@ -1844,7 +1845,7 @@ Table of Contents
     |                           Padding (*)                       ...
     +---------------------------------------------------------------+
 
-                   Figure 11: PUSH_PROMISE Payload Format
+                   Figure 11: PUSH_PROMISE Frame Payload
 
    The PUSH_PROMISE frame payload has the following fields:
 
@@ -1941,16 +1942,16 @@ Table of Contents
     |                                                               |
     +---------------------------------------------------------------+
 
-                       Figure 12: PING Payload Format
+                       Figure 12: PING Frame Payload
 
    In addition to the frame header, PING frames MUST contain 8 octets of
-   opaque data in the payload.  A sender can include any value it
+   opaque data in the frame payload.  A sender can include any value it
    chooses and use those octets in any fashion.
 
    Receivers of a PING frame that does not include an ACK flag MUST send
    a PING frame with the ACK flag set in response, with an identical
-   payload.  PING responses SHOULD be given higher priority than any
-   other frame.
+   frame payload.  PING responses SHOULD be given higher priority than
+   any other frame.
 
    The PING frame defines the following flags:
 
@@ -2020,7 +2021,7 @@ Table of Contents
     |                  Additional Debug Data (*)                    |
     +---------------------------------------------------------------+
 
-                      Figure 13: GOAWAY Payload Format
+                      Figure 13: GOAWAY Frame Payload
 
    The GOAWAY frame does not define any flags.
 
@@ -2091,12 +2092,12 @@ Table of Contents
    The GOAWAY frame also contains a 32-bit error code (Section 7) that
    contains the reason for closing the connection.
 
-   Endpoints MAY append opaque data to the payload of any GOAWAY frame.
-   Additional debug data is intended for diagnostic purposes only and
-   carries no semantic value.  Debug information could contain security-
-   or privacy-sensitive data.  Logged or otherwise persistently stored
-   debug data MUST have adequate safeguards to prevent unauthorized
-   access.
+   Endpoints MAY append opaque data to the frame payload of any GOAWAY
+   frame.  Additional debug data is intended for diagnostic purposes
+   only and carries no semantic value.  Debug information could contain
+   security- or privacy-sensitive data.  Logged or otherwise
+   persistently stored debug data MUST have adequate safeguards to
+   prevent unauthorized access.
 
 6.9.  WINDOW_UPDATE
 
@@ -2125,10 +2126,10 @@ Table of Contents
     |R|              Window Size Increment (31)                     |
     +-+-------------------------------------------------------------+
 
-                  Figure 14: WINDOW_UPDATE Payload Format
+                   Figure 14: WINDOW_UPDATE Frame Payload
 
-   The payload of a WINDOW_UPDATE frame is one reserved bit plus an
-   unsigned 31-bit integer indicating the number of octets that the
+   The frame payload of a WINDOW_UPDATE frame is one reserved bit plus
+   an unsigned 31-bit integer indicating the number of octets that the
    sender can transmit in addition to the existing flow-control window.
    The legal range for the increment to the flow-control window is 1 to
    2^(31)-1 (2,147,483,647) octets.
@@ -2398,8 +2399,8 @@ Table of Contents
    2.  one HEADERS frame (followed by zero or more CONTINUATION frames)
        containing the message headers (see Section 3.2 of [RFC7230]),
 
-   3.  zero or more DATA frames containing the payload body (see
-       Section 3.3 of [RFC7230]), and
+   3.  zero or more DATA frames containing the message content (see
+       Section 6.4 of [draft-ietf-httpbis-semantics-14]), and
 
    4.  optionally, one HEADERS frame, followed by zero or more
        CONTINUATION frames containing the trailer-part, if present (see
@@ -2413,7 +2414,7 @@ Table of Contents
    Other frames (from any stream) MUST NOT occur between the HEADERS
    frame and any CONTINUATION frames that might follow.
 
-   HTTP/2 uses DATA frames to carry message payloads.  The "chunked"
+   HTTP/2 uses DATA frames to carry message content.  The "chunked"
    transfer encoding defined in Section 4.1 of [RFC7230] MUST NOT be
    used in HTTP/2.
 
@@ -2616,12 +2617,12 @@ Table of Contents
    extraneous frames, prohibited header fields, the absence of mandatory
    header fields, or the inclusion of uppercase header field names.
 
-   A request or response that includes a payload body can include a
+   A request or response that includes message content can include a
    "content-length" header field.  A request or response is also
    malformed if the value of a "content-length" header field does not
-   equal the sum of the DATA frame payload lengths that form the body.
-   A response that is defined to have no payload, as described in
-   [RFC7230], can have a non-zero "content-length" header field, even
+   equal the sum of the DATA frame payload lengths that form the
+   content.  A response that is defined to have no content, as described
+   in [RFC7230], can have a non-zero "content-length" header field, even
    though no content is included in DATA frames.
 
    Intermediaries that process HTTP requests or responses (i.e., any
@@ -2642,12 +2643,12 @@ Table of Contents
    This section shows HTTP/1.1 requests and responses, with
    illustrations of equivalent HTTP/2 requests and responses.
 
-   An HTTP GET request includes request header fields and no payload
-   body and is therefore transmitted as a single HEADERS frame, followed
-   by zero or more CONTINUATION frames containing the serialized block
-   of request header fields.  The HEADERS frame in the following has
-   both the END_HEADERS and END_STREAM flags set; no CONTINUATION frames
-   are sent.
+   An HTTP GET request includes request header fields and no message
+   content and is therefore transmitted as a single HEADERS frame,
+   followed by zero or more CONTINUATION frames containing the
+   serialized block of request header fields.  The HEADERS frame in the
+   following has both the END_HEADERS and END_STREAM flags set; no
+   CONTINUATION frames are sent.
 
      GET /resource HTTP/1.1           HEADERS
      Host: example.org          ==>     + END_STREAM
@@ -2670,8 +2671,8 @@ Table of Contents
                                           etag = "xyzzy"
                                           expires = Thu, 23 Jan ...
 
-   An HTTP POST request that includes request header fields and payload
-   data is transmitted as one HEADERS frame, followed by zero or more
+   An HTTP POST request that includes request header fields and message
+   content is transmitted as one HEADERS frame, followed by zero or more
    CONTINUATION frames containing the request header fields, followed by
    one or more DATA frames, with the last CONTINUATION (or HEADERS)
    frame having the END_HEADERS flag set and the final DATA frame having
@@ -2698,7 +2699,7 @@ Table of Contents
    between header block fragments.  The allocation of header fields to
    frames in this example is illustrative only.
 
-   A response that includes header fields and payload data is
+   A response that includes header fields and message content is
    transmitted as a HEADERS frame, followed by zero or more CONTINUATION
    frames, followed by one or more DATA frames, with the last DATA frame
    in the sequence having the END_STREAM flag set:
@@ -2801,10 +2802,10 @@ Table of Contents
    setting can be set to 0 to indicate that server push is disabled.
 
    Promised requests MUST be cacheable (see Section 4.2.3 of [RFC7231]),
-   MUST be safe (see Section 4.2.1 of [RFC7231]), and MUST NOT include a
-   request body.  Clients that receive a promised request that is not
+   MUST be safe (see Section 4.2.1 of [RFC7231]), and MUST NOT include
+   any content.  Clients that receive a promised request that is not
    cacheable, that is not known to be safe, or that indicates the
-   presence of a request body MUST reset the promised stream with a
+   presence of request content MUST reset the promised stream with a
    stream error (Section 5.4.2) of type PROTOCOL_ERROR.  Note this could
    result in the promised stream being reset if the client does not
    recognize a newly defined method as being safe.
@@ -2847,7 +2848,7 @@ Table of Contents
    The PUSH_PROMISE frame includes a header block that contains a
    complete set of request header fields that the server attributes to
    the request.  It is not possible to push a response to a request that
-   includes a request body.
+   includes message content.
 
    Promised requests are always associated with an explicit request from
    the client.  The PUSH_PROMISE frames sent by the server are sent on
@@ -2967,7 +2968,7 @@ Table of Contents
    defined in Section 4.3.6 of [RFC7231].
 
    After the initial HEADERS frame sent by each peer, all subsequent
-   DATA frames correspond to data sent on the TCP connection.  The
+   DATA frames correspond to data sent on the TCP connection.  The frame
    payload of any DATA frames sent by the client is transmitted by the
    proxy to the TCP server; data received from the TCP server is
    assembled into DATA frames by the proxy.  Frame types other than DATA
@@ -3392,9 +3393,9 @@ Table of Contents
    of frames an attacker has to observe.  Incorrectly implemented
    padding schemes can be easily defeated.  In particular, randomized
    padding with a predictable distribution provides very little
-   protection; similarly, padding payloads to a fixed size exposes
-   information as payload sizes cross the fixed-sized boundary, which
-   could be possible if an attacker can control plaintext.
+   protection; similarly, padding frame payloads to a fixed size exposes
+   information as frame payload sizes cross the fixed-sized boundary,
+   which could be possible if an attacker can control plaintext.
 
    Intermediaries SHOULD retain padding for DATA frames but MAY drop
    padding for HEADERS and PUSH_PROMISE frames.  A valid reason for an
@@ -3786,6 +3787,13 @@ Table of Contents
               CRIME Attack", 12 July 2013,
               <http://breachattack.com/resources/
               BREACH%20-%20SSL,%20gone%20in%2030%20seconds.pdf>.
+
+   [draft-ietf-httpbis-semantics-14]
+              Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Semantics", Work in Progress, Internet-Draft,
+              draft-ietf-httpbis-semantics-14, 13 January 2021,
+              <https://tools.ietf.org/html/draft-ietf-httpbis-semantics-
+              14>.
 
    [HTML5]    Hickson, I., Berjon, R., Faulkner, S., Leithead, T., Doyle
               Navara, E., O'Connor, E., and S. Pfeiffer, "HTML5", W3C
