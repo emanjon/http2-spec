@@ -6,7 +6,7 @@ HTTPbis                                                  M. Thomson, Ed.
 Internet-Draft                                                   Mozilla
 Obsoletes: 7540, 8740 (if approved)                     C. Benfield, Ed.
 Intended status: Standards Track                              Apple Inc.
-Expires: 6 August 2021                                   2 February 2021
+Expires: 7 August 2021                                   3 February 2021
 
 
              Hypertext Transfer Protocol Version 2 (HTTP/2)
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 August 2021.
+   This Internet-Draft will expire on 7 August 2021.
 
 Copyright Notice
 
@@ -362,11 +362,11 @@ Table of Contents
 
    For example:
 
-   GET / HTTP/1.1
-   Host: server.example.com
-   Connection: Upgrade, HTTP2-Settings
-   Upgrade: h2c
-   HTTP2-Settings: <base64url encoding of HTTP/2 SETTINGS frame payload>
+     GET / HTTP/1.1
+     Host: server.example.com
+     Connection: Upgrade, HTTP2-Settings
+     Upgrade: h2c
+     HTTP2-Settings: <base64url encoding of SETTINGS frame payload>
 
    Requests that contain message content MUST be sent in their entirety
    before the client can send HTTP/2 frames.  This means that a large
