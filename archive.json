@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-01-31T00:56:35.301861+00:00",
+  "timestamp": "2021-02-04T00:43:27.251598+00:00",
   "repo": "httpwg/http2-spec",
   "labels": [
     {
@@ -17464,7 +17464,7 @@
       ],
       "body": "The current reference is in the WHATWG \"infra standard\": https://infra.spec.whatwg.org/#tracking-vector\r\n\r\nTo use this, we need to ask for the \"tracking-vector\" anchor to be made permanent.",
       "createdAt": "2020-10-28T07:08:02Z",
-      "updatedAt": "2020-12-23T04:01:13Z",
+      "updatedAt": "2021-02-02T05:38:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -17494,6 +17494,13 @@
           "body": "Probably the TR - whatever bibxml says, I'd think.",
           "createdAt": "2020-12-23T04:01:13Z",
           "updatedAt": "2020-12-23T04:01:13Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm going to go with something simpler.  RFC 6973 has an adequate definition.",
+          "createdAt": "2021-02-02T05:38:40Z",
+          "updatedAt": "2021-02-02T05:38:40Z"
         }
       ]
     },
@@ -17620,15 +17627,15 @@
       "id": "MDU6SXNzdWU3MzExNzE5Njk=",
       "title": "Integrate TLS 1.3 updates",
       "url": "https://github.com/httpwg/http2-spec/issues/774",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "A few small changes are included in [RFC 8740](https://tools.ietf.org/html/rfc8740), which could be integrated easily.",
       "createdAt": "2020-10-28T07:09:58Z",
-      "updatedAt": "2020-12-17T01:16:47Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-02T03:59:25Z",
+      "closedAt": "2021-02-02T03:59:25Z",
       "comments": [
         {
           "author": "martinthomson",
@@ -17755,7 +17762,7 @@
       "id": "MDU6SXNzdWU3MzExNzM3MTg=",
       "title": "Clarify prohibition on use of pseudo-fields relative to extension model",
       "url": "https://github.com/httpwg/http2-spec/issues/778",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -17764,8 +17771,8 @@
       ],
       "body": "RFC 8441 did a thing with settings that allowed it to violate a MUST-level requirement that prohibited use of pseudo-fields. This is OK (because extensions were expressly permitted to do that), but some people are uncomfortable with that.",
       "createdAt": "2020-10-28T07:12:50Z",
-      "updatedAt": "2020-12-21T07:17:46Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-02T05:37:29Z",
+      "closedAt": "2021-02-02T05:37:29Z",
       "comments": [
         {
           "author": "Lukasa",
@@ -17801,6 +17808,13 @@
           "body": "Based on the above text, that seems right",
           "createdAt": "2020-11-11T06:27:03Z",
           "updatedAt": "2020-11-11T06:27:03Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed in #796.",
+          "createdAt": "2021-02-02T05:37:29Z",
+          "updatedAt": "2021-02-02T05:37:29Z"
         }
       ]
     },
@@ -17835,15 +17849,15 @@
       "id": "MDU6SXNzdWU3MzExNzQ2MDk=",
       "title": "Midders or multiple trailers",
       "url": "https://github.com/httpwg/http2-spec/issues/780",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The protocol is very cagey about the semantics of a HEADERS frame if it doesn't include the END_STREAM flag. Do something about this.  Some people have attached semantics to these, others would prefer we never did that and instead discourage the use of these.",
       "createdAt": "2020-10-28T07:14:19Z",
-      "updatedAt": "2020-12-22T04:43:42Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-02T05:22:52Z",
+      "closedAt": "2021-02-02T05:22:52Z",
       "comments": [
         {
           "author": "Lukasa",
@@ -18414,15 +18428,15 @@
       "id": "MDU6SXNzdWU3NjgzNTg1ODM=",
       "title": "The requirement to use SNI is not possible always",
       "url": "https://github.com/httpwg/http2-spec/issues/792",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "SNI contains a domain name.  Clients connecting to an host in order to make requests for a URL with an IP address authority don't include SNI.  We addressed this better in HTTP/3.\r\n\r\n> If the server is identified by a DNS name, clients MUST send the Server Name Indication (SNI; [RFC6066]) TLS extension unless an alternative mechanism to indicate the target host is used.\r\n\r\n-- https://quicwg.org/base-drafts/draft-ietf-quic-http.html#section-3.2-2\r\n\r\nI believe that in practice the requirement is being ignored.  Aligning the spec with reality seems best.",
       "createdAt": "2020-12-16T01:17:20Z",
-      "updatedAt": "2020-12-17T10:21:50Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-02T05:21:26Z",
+      "closedAt": "2021-02-02T05:21:26Z",
       "comments": [
         {
           "author": "martinthomson",
@@ -18553,15 +18567,15 @@
       "id": "MDU6SXNzdWU3Nzc3NTE1NDY=",
       "title": "Defer to core HTTP for 421 status code",
       "url": "https://github.com/httpwg/http2-spec/issues/802",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "https://github.com/httpwg/http-core/pull/624 added the definition of 421 (Misdirected Request) to the core HTTP specification.  We don't need to replicate that definition any more, it is only necessary to keep pointers.",
       "createdAt": "2021-01-04T00:48:27Z",
-      "updatedAt": "2021-01-04T00:48:27Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-02T03:54:32Z",
+      "closedAt": "2021-02-02T03:54:32Z",
       "comments": []
     },
     {
@@ -18569,15 +18583,15 @@
       "id": "MDU6SXNzdWU3ODE3ODIwNDE=",
       "title": "\"Payload\" is too heavily overloaded",
       "url": "https://github.com/httpwg/http2-spec/issues/803",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See https://github.com/httpwg/http-core/issues/654",
       "createdAt": "2021-01-08T01:56:02Z",
-      "updatedAt": "2021-01-08T13:26:56Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-02T03:51:05Z",
+      "closedAt": "2021-02-02T03:51:05Z",
       "comments": [
         {
           "author": "Lukasa",
@@ -18593,15 +18607,15 @@
       "id": "MDU6SXNzdWU3ODkzNzgxNjQ=",
       "title": "Connection headers and proxies",
       "url": "https://github.com/httpwg/http2-spec/issues/804",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "We have generation rules\r\n> An endpoint MUST NOT generate an HTTP/2 message containing connection-specific header fields; any message containing connection-specific header fields MUST be treated as malformed (Section 8.1.2.6).\r\n\r\nAnd we have forwarding rules:\r\n> This means that an intermediary transforming an HTTP/1.x message to HTTP/2 will need to remove any header fields nominated by the Connection header field, along with the Connection header field itself.  Such intermediaries SHOULD also remove other connection-specific header fields, such as Keep-Alive, Proxy-Connection, Transfer-Encoding, and Upgrade, even if they are not nominated by the Connection header field.\r\n\r\nIn https://github.com/quicwg/base-drafts/pull/4747 for HTTP/3, we are discussing a requirement to remove Transfer-Encoding.  But the \"will need to\" for the proxy is what seems most strange.  Should this be a MUST instead?",
       "createdAt": "2021-01-19T21:17:38Z",
-      "updatedAt": "2021-01-20T22:59:36Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-02T03:53:48Z",
+      "closedAt": "2021-02-02T03:53:48Z",
       "comments": [
         {
           "author": "mnot",
@@ -18625,6 +18639,64 @@
           "updatedAt": "2021-01-20T22:59:36Z"
         }
       ]
+    },
+    {
+      "number": 810,
+      "id": "MDU6SXNzdWU3OTg5MDUwMTA=",
+      "title": "A wide diagram might be made narrower",
+      "url": "https://github.com/httpwg/http2-spec/issues/810",
+      "state": "CLOSED",
+      "author": "martinthomson",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "editorial"
+      ],
+      "body": ".../draft-ietf-httpbis-http2bis.xml(311): Warning: Artwork too wide, reducing indentation from 3 to 1\r\n\r\nMight be worth trying to fix.",
+      "createdAt": "2021-02-02T04:01:00Z",
+      "updatedAt": "2021-02-03T23:31:58Z",
+      "closedAt": "2021-02-03T23:31:58Z",
+      "comments": [
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think that diagram is this one:\r\n\r\n```\r\n<artwork type=\"message/http; msgtype=&quot;request&quot;\"><![CDATA[\r\n  GET / HTTP/1.1\r\n  Host: server.example.com\r\n  Connection: Upgrade, HTTP2-Settings\r\n  Upgrade: h2c\r\n  HTTP2-Settings: <base64url encoding of HTTP/2 SETTINGS frame payload>\r\n\r\n]]></artwork>\r\n```\r\n\r\nMight be a pain to rewrite that one to be smaller. Careful wordsmithing?",
+          "createdAt": "2021-02-03T16:50:17Z",
+          "updatedAt": "2021-02-03T16:50:25Z"
+        },
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think that has to be the one. It's 72 characters wide at its widest. The next-widest artwork in the RFC is 67 characters, so if we can save 5 characters we'd be fine.",
+          "createdAt": "2021-02-03T16:54:11Z",
+          "updatedAt": "2021-02-03T16:54:11Z"
+        },
+        {
+          "author": "reschke",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Just say something like:\r\n\r\n  HTTP2-Settings: <encoded-settings>\r\n\r\nand then in the prose say that \"encoded-settings\" is \"base64url encoding of HTTP/2 SETTINGS frame payload\"",
+          "createdAt": "2021-02-03T16:56:33Z",
+          "updatedAt": "2021-02-03T16:56:33Z"
+        }
+      ]
+    },
+    {
+      "number": 812,
+      "id": "MDU6SXNzdWU3OTg5Nzg2MzQ=",
+      "title": "Interim responses are messages",
+      "url": "https://github.com/httpwg/http2-spec/issues/812",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "editorial"
+      ],
+      "body": "The framing in HTTP/2 always treated informational status codes and the associated header section as part of the response, but the updated core specifications clearly make interim responses independent messages (which makes complete sense).  This requires a little different treatment than what we currently have.",
+      "createdAt": "2021-02-02T06:32:56Z",
+      "updatedAt": "2021-02-02T09:20:24Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -29430,24 +29502,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTQzODAyNzc5",
       "title": "Extensions defining pseudo-header fields",
       "url": "https://github.com/httpwg/http2-spec/pull/796",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #8.",
       "createdAt": "2020-12-22T00:46:24Z",
-      "updatedAt": "2021-01-27T04:53:36Z",
+      "updatedAt": "2021-02-02T05:18:05Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "894fb1ede3b6a86bd75ab5376cfb7f7db5b9bd1b",
       "headRepository": "martinthomson/http2v2",
       "headRefName": "extension-pseudo-field",
       "headRefOid": "8ad6f41b72d2275ba7e5e272c75c57cadf3d9901",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-02-02T05:18:05Z",
+      "mergedAt": "2021-02-02T05:18:05Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "6091b12ae10fba32ceb8f77ff84b28dc0f0bd676"
+      },
       "comments": [],
       "reviews": [
         {
@@ -29477,24 +29551,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTQzODAyOTg1",
       "title": "Changes for TLS 1.3",
       "url": "https://github.com/httpwg/http2-spec/pull/797",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "A lot has happened to TLS since we did RFC 7540.  This tries to capture\r\nthat succinctly.\r\n\r\n- It rolls in changes from RFC 8740.\r\n\r\n- It mentions early data and RFC 8470.\r\n\r\n- It updates references, citing TLS 1.3 rather than 1.2 for a generic\r\n  TLS reference.\r\n\r\nCloses #774.",
       "createdAt": "2020-12-22T00:47:09Z",
-      "updatedAt": "2021-01-27T04:53:36Z",
+      "updatedAt": "2021-02-02T03:59:25Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
-      "baseRefOid": "894fb1ede3b6a86bd75ab5376cfb7f7db5b9bd1b",
+      "baseRefOid": "dd71b3d97206ce5e063c6cdff7ac1792a4531b1e",
       "headRepository": "martinthomson/http2v2",
       "headRefName": "tls13",
-      "headRefOid": "74e532fbf05e7b978e62c216d87ab5c4738a7532",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "97241299365c30b02fd23912918fb50208c19364",
+      "closedAt": "2021-02-02T03:59:25Z",
+      "mergedAt": "2021-02-02T03:59:25Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "72a8112af9af973e1816c2bcb9b161aed34215e1"
+      },
       "comments": [],
       "reviews": [
         {
@@ -29513,13 +29589,13 @@
               "originalPosition": 67,
               "body": "Minor editorial note: is it useful to use the `\u201dtls13features\u201d` anchor for consistency with 1.2 and so we don\u2019t have two almost-identical anchors (\u201cTLS13\u201d and \u201ctls13\u201d) in the document?",
               "createdAt": "2020-12-22T08:05:05Z",
-              "updatedAt": "2020-12-22T08:13:55Z"
+              "updatedAt": "2021-02-02T03:58:34Z"
             },
             {
               "originalPosition": 94,
               "body": "As this document obsoletes RFC 8470, is it worth importing that guidance into this document wholesale?",
               "createdAt": "2020-12-22T08:13:27Z",
-              "updatedAt": "2020-12-22T08:13:55Z"
+              "updatedAt": "2021-02-02T03:58:34Z"
             }
           ]
         },
@@ -29539,7 +29615,7 @@
               "originalPosition": 94,
               "body": "It's RFC 8740 that this obsoletes :)  Confusing, I know.  I have to double-check every time because I keep getting them the wrong way around.",
               "createdAt": "2020-12-22T21:00:36Z",
-              "updatedAt": "2020-12-22T21:00:36Z"
+              "updatedAt": "2021-02-02T03:58:34Z"
             }
           ]
         },
@@ -29559,7 +29635,7 @@
               "originalPosition": 94,
               "body": "That\u2019s a huge mess.",
               "createdAt": "2020-12-22T21:09:46Z",
-              "updatedAt": "2020-12-22T21:09:47Z"
+              "updatedAt": "2021-02-02T03:58:34Z"
             }
           ]
         }
@@ -29570,24 +29646,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTQzODAzMDc2",
       "title": "Condition SNI requirement more carefully",
       "url": "https://github.com/httpwg/http2-spec/pull/798",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #792.",
       "createdAt": "2020-12-22T00:47:32Z",
-      "updatedAt": "2021-01-27T04:53:36Z",
+      "updatedAt": "2021-02-02T05:32:27Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "894fb1ede3b6a86bd75ab5376cfb7f7db5b9bd1b",
       "headRepository": "martinthomson/http2v2",
       "headRefName": "sni-maybe",
       "headRefOid": "d8c84d4aa6d6b786397f159144a71f7482c2ab14",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-02-02T05:21:26Z",
+      "mergedAt": "2021-02-02T05:21:26Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "a78e28f8a7e17b9d44c900750994a8dc48e794f4"
+      },
       "comments": [],
       "reviews": [
         {
@@ -29690,24 +29768,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTQzODAzMzE2",
       "title": "Clarifications for trailers",
       "url": "https://github.com/httpwg/http2-spec/pull/799",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Make it clearer that midders leads to the message being invalid.  I\r\nhope.  It was already pretty clear.\r\n\r\nI did have to fix the definition for malformed requests, which was\r\nmissing.\r\n\r\nAnd no mention was made of pseudo-header fields.\r\n\r\nThis uses new terminology too.  That might save effort in a larger\r\ncleanup.\r\n\r\nCloses #780.",
       "createdAt": "2020-12-22T00:48:32Z",
-      "updatedAt": "2021-01-27T04:53:36Z",
+      "updatedAt": "2021-02-02T05:22:53Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "894fb1ede3b6a86bd75ab5376cfb7f7db5b9bd1b",
       "headRepository": "martinthomson/http2v2",
       "headRefName": "midders",
       "headRefOid": "10399697cf7804e5ee8463aaf81b9fa66bfd8a20",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-02-02T05:22:53Z",
+      "mergedAt": "2021-02-02T05:22:53Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "1e2a62afa9f5b439f92c30b1e495f8ca9025f5ee"
+      },
       "comments": [],
       "reviews": [
         {
@@ -29728,7 +29808,7 @@
     {
       "number": 800,
       "id": "MDExOlB1bGxSZXF1ZXN0NTQzODAzNDMy",
-      "title": "Reference infra standard for fingerprinting",
+      "title": "Reference RFC 6973 for fingerprinting",
       "url": "https://github.com/httpwg/http2-spec/pull/800",
       "state": "OPEN",
       "author": "martinthomson",
@@ -29737,13 +29817,13 @@
       "labels": [],
       "body": "The thinking has evolved considerably since the original reference was\r\nmade.  This is the right way to refer to this concept.\r\n\r\nCloses #771.",
       "createdAt": "2020-12-22T00:49:09Z",
-      "updatedAt": "2021-01-27T04:53:36Z",
+      "updatedAt": "2021-02-04T00:06:53Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
-      "baseRefOid": "894fb1ede3b6a86bd75ab5376cfb7f7db5b9bd1b",
+      "baseRefOid": "1e2a62afa9f5b439f92c30b1e495f8ca9025f5ee",
       "headRepository": "martinthomson/http2v2",
       "headRefName": "tracking-vector-ref",
-      "headRefOid": "f491f6473c4b8cb6cf62efa7a88d235a9e2756cf",
+      "headRefOid": "aa98c49f2e6a80f9ab39591fe6c64a705e83860b",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -29857,24 +29937,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTU4OTc5MTE4",
       "title": "Remove use of \"payload\" for message bodies.",
       "url": "https://github.com/httpwg/http2-spec/pull/806",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Lukasa",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "This patch also changes our text to be consistent in using \"frame\r\npayload\" as a two-word phrase.\r\n\r\nNote that this patch now sometimes leaves us with the text \"frame payload of an X frame\". Shout if that seems too clumsy and I can remove the last word \"frame\", though I think it has the advantage of being extremely clear.\r\n\r\nResolves #803.",
       "createdAt": "2021-01-21T08:43:13Z",
-      "updatedAt": "2021-01-27T04:53:36Z",
+      "updatedAt": "2021-02-02T03:51:06Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "894fb1ede3b6a86bd75ab5376cfb7f7db5b9bd1b",
       "headRepository": "Lukasa/http2-spec",
       "headRefName": "cb-cleanup-payload",
       "headRefOid": "3bc7f7859ff6057c042385597c9367dcc0dd9b63",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-02-02T03:51:06Z",
+      "mergedAt": "2021-02-02T03:51:05Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "3f4a191fe288e63905ab63344b9daf5a7d4a4b61"
+      },
       "comments": [],
       "reviews": [
         {
@@ -29988,24 +30070,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTU4OTgzNjU2",
       "title": "Defer to the core spec for connection-specific headers",
       "url": "https://github.com/httpwg/http2-spec/pull/807",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Lukasa",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Resolves #804.",
       "createdAt": "2021-01-21T08:50:42Z",
-      "updatedAt": "2021-01-27T04:53:36Z",
+      "updatedAt": "2021-02-02T03:53:48Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "894fb1ede3b6a86bd75ab5376cfb7f7db5b9bd1b",
       "headRepository": "Lukasa/http2-spec",
       "headRefName": "cb-defer-to-core-for-connection",
       "headRefOid": "7537dd7a40739c9324fd05e9e1da81731a2361e5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-02-02T03:53:48Z",
+      "mergedAt": "2021-02-02T03:53:48Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "89445a0e1f886ae3733eec862ac4b76ffe4a6264"
+      },
       "comments": [
         {
           "author": "Lukasa",
@@ -30029,24 +30113,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTU5MDE0MTg2",
       "title": "Remove definition of 421 and point to core.",
       "url": "https://github.com/httpwg/http2-spec/pull/808",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Lukasa",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Resolves #802.\r\n\r\nDepends on #806 for the xref, won't build cleanly without it. However, I don't want to add the xref here as it would prevent a clean merge.",
       "createdAt": "2021-01-21T09:34:52Z",
-      "updatedAt": "2021-01-27T04:53:36Z",
+      "updatedAt": "2021-02-02T03:54:32Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "894fb1ede3b6a86bd75ab5376cfb7f7db5b9bd1b",
       "headRepository": "Lukasa/http2-spec",
       "headRefName": "cb-421",
       "headRefOid": "991df681b1d0e777b36c11e811978b78ef6faf94",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-02-02T03:54:32Z",
+      "mergedAt": "2021-02-02T03:54:31Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "dd71b3d97206ce5e063c6cdff7ac1792a4531b1e"
+      },
       "comments": [],
       "reviews": [
         {
@@ -30105,6 +30191,186 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 811,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTY1NzAxMjA1",
+      "title": "First pass on references to updated documents",
+      "url": "https://github.com/httpwg/http2-spec/pull/811",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is fairly cursory at this stage.  The goal is to get the document\r\nfunctional first.  Next step is a full read-through for terminology.",
+      "createdAt": "2021-02-02T06:31:39Z",
+      "updatedAt": "2021-02-02T21:28:27Z",
+      "baseRepository": "httpwg/http2-spec",
+      "baseRefName": "main",
+      "baseRefOid": "7c6412d243604b986ea1cbad7f1a3f0f71d6a8d4",
+      "headRepository": "martinthomson/http2v2",
+      "headRefName": "semantics-refs",
+      "headRefOid": "f7ad17f58dfd3cffee8690900ae5b4309076bd71",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTgxMDk0Mzk3",
+          "commit": {
+            "abbreviatedOid": "f0caa55"
+          },
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "Generally looks good, some notes on specific references in the diff.",
+          "createdAt": "2021-02-02T08:33:55Z",
+          "updatedAt": "2021-02-02T08:54:06Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "We really don't have a section reference here?",
+              "createdAt": "2021-02-02T08:33:55Z",
+              "updatedAt": "2021-02-02T10:56:56Z"
+            },
+            {
+              "originalPosition": 72,
+              "body": "Editorial nit: \"abstract HTTP message abstraction\". Aren't abstractions tautologically abstract? I think I'd propose deleting the first instance of the word \"abstract\".\r\n\r\n```suggestion\r\n        HTTP/2 defines a framing of the HTTP message abstraction\r\n```",
+              "createdAt": "2021-02-02T08:40:46Z",
+              "updatedAt": "2021-02-02T10:56:56Z"
+            },
+            {
+              "originalPosition": 95,
+              "body": "I'm not sure about this reference. Section 5 is \"Fields\", but this doesn't define \"header section\" (though perplexingly does _use_ the term). \"Header section\" is defined in \u00a7 6.3. I think we should be referring to that instead. This also lines up nicely with the other references in this list, which point to \u00a7 6.4 and \u00a7 6.5.\r\n\r\n```suggestion\r\n              the header section (see <xref target=\"HTTP\" section=\"6.3\"/>),\r\n```",
+              "createdAt": "2021-02-02T08:42:42Z",
+              "updatedAt": "2021-02-02T21:26:16Z"
+            },
+            {
+              "originalPosition": 117,
+              "body": "Should this reference be more specific, to \u00a7 15.2? \u00a7 15 is \"Status codes\", \u00a7 15.2 is \"Informational 1xx\".",
+              "createdAt": "2021-02-02T08:45:21Z",
+              "updatedAt": "2021-02-02T10:56:56Z"
+            },
+            {
+              "originalPosition": 239,
+              "body": "Can we make this more specific? I think we could point at \u00a7 6.4 (\"Content\").\r\n\r\n```suggestion\r\n              content.  A response that is defined to have no content, as described in <xref target=\"HTTP\" section=\"6.4\"/>, can have a non-zero\r\n```",
+              "createdAt": "2021-02-02T08:49:15Z",
+              "updatedAt": "2021-02-02T21:26:43Z"
+            },
+            {
+              "originalPosition": 266,
+              "body": "no-cache is \u00a7 5.2.2.3, not \u00a7 5.2.2.4.\r\n\r\n```suggestion\r\n          if the \"no-cache\" cache response directive is present; see <xref target=\"CACHE\" section=\"5.2.2.3\"/>) while the stream identified by the\r\n```",
+              "createdAt": "2021-02-02T08:51:17Z",
+              "updatedAt": "2021-02-02T10:56:56Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTgxNzg3NTE4",
+          "commit": {
+            "abbreviatedOid": "f7ad17f"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Note that one non-obvious thing here is that HTTP/1.1 is a normative reference here.  I didn't think that it needed to be initially, but then I found that it was unavoidable because we talk a LOT about translating too and from 1.1.  I don't think that we can avoid that unfortunately.",
+          "createdAt": "2021-02-02T21:25:40Z",
+          "updatedAt": "2021-02-02T21:28:27Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "It's a very broad reference, it doesn't need to be precise.",
+              "createdAt": "2021-02-02T21:25:41Z",
+              "updatedAt": "2021-02-02T21:28:27Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 813,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTY2OTgxMTAw",
+      "title": "Clarify that PRIORITY does not close streams.",
+      "url": "https://github.com/httpwg/http2-spec/pull/813",
+      "state": "OPEN",
+      "author": "Lukasa",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is a first stab at #759. I've gone for a minimal change here, simply clarifying that only HEADERS and PUSH_PROMISE frames have the effect of implicitly closing streams.\r\n\r\nWhile I was writing this I did have a question that may need to be raised on-list: do HEADERS and PUSH_PROMISE only implicitly close streams if they are _accepted_? That is, if a client sends a HEADERS frame that triggers a stream error, does that HEADERS frame still implicitly close all streams with a lower stream ID that are in the \"idle\" state? This may also be worth clarifying.",
+      "createdAt": "2021-02-03T16:47:23Z",
+      "updatedAt": "2021-02-04T00:07:30Z",
+      "baseRepository": "httpwg/http2-spec",
+      "baseRefName": "main",
+      "baseRefOid": "7c6412d243604b986ea1cbad7f1a3f0f71d6a8d4",
+      "headRepository": "Lukasa/http2-spec",
+      "headRefName": "cb-stream-state-priority",
+      "headRefOid": "8b229056287d866fbb751a46e8d94519bcc81bd6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTgyOTI0Njg0",
+          "commit": {
+            "abbreviatedOid": "8b22905"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-04T00:07:29Z",
+          "updatedAt": "2021-02-04T00:07:30Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "I've a little trouble with the ambiguity regarding stream identifiers in PUSH_PROMISE.  I'm not clear on this, but it might be better to say:\r\n\r\n> Each type of stream transitions out of the \"idle\" state for one reason:\r\n> * A client-initiated stream becomes \"open\" when a HEADERS frame is sent on the stream.\r\n> * A server-initiated stream becomes \"reserved\" when a PUSH_PROMISE (sent on a request stream) promises a response on the stream.\r\n> When a stream transitions out of the \"idle\" state, all streams in that direction with lower-numbered stream identifiers that are also \"idle\" are closed.  That is, an endpoint can skip a stream identifier, with the effect being that the skipped stream is immediately closed.\r\n\r\nToo large a change?",
+              "createdAt": "2021-02-04T00:07:30Z",
+              "updatedAt": "2021-02-04T00:07:30Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 814,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTY2OTg3NDAx",
+      "title": "Reduce the width of the upgrade diagram.",
+      "url": "https://github.com/httpwg/http2-spec/pull/814",
+      "state": "MERGED",
+      "author": "Lukasa",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #810.",
+      "createdAt": "2021-02-03T16:56:15Z",
+      "updatedAt": "2021-02-03T23:32:03Z",
+      "baseRepository": "httpwg/http2-spec",
+      "baseRefName": "main",
+      "baseRefOid": "7c6412d243604b986ea1cbad7f1a3f0f71d6a8d4",
+      "headRepository": "Lukasa/http2-spec",
+      "headRefName": "cb-narrower-diagram",
+      "headRefOid": "44086b78a137bc482b34ee6ec25c3d47857ed9b3",
+      "closedAt": "2021-02-03T23:31:58Z",
+      "mergedAt": "2021-02-03T23:31:58Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "028688ad5df27d4cc57b82c51127d45b99440e63"
+      },
+      "comments": [
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "simple :)",
+          "createdAt": "2021-02-03T23:32:03Z",
+          "updatedAt": "2021-02-03T23:32:03Z"
+        }
+      ],
+      "reviews": []
     }
   ]
 }
