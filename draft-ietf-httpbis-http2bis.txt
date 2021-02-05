@@ -6,7 +6,7 @@ HTTPbis                                                  M. Thomson, Ed.
 Internet-Draft                                                   Mozilla
 Obsoletes: 7540, 8740 (if approved)                     C. Benfield, Ed.
 Intended status: Standards Track                              Apple Inc.
-Expires: 7 August 2021                                   3 February 2021
+Expires: 9 August 2021                                   5 February 2021
 
 
              Hypertext Transfer Protocol Version 2 (HTTP/2)
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 August 2021.
+   This Internet-Draft will expire on 9 August 2021.
 
 Copyright Notice
 
@@ -955,12 +955,16 @@ Table of Contents
    receives an unexpected stream identifier MUST respond with a
    connection error (Section 5.4.1) of type PROTOCOL_ERROR.
 
-   The first use of a new stream identifier implicitly closes all
-   streams in the "idle" state that might have been initiated by that
-   peer with a lower-valued stream identifier.  For example, if a client
-   sends a HEADERS frame on stream 7 without ever sending a frame on
-   stream 5, then stream 5 transitions to the "closed" state when the
-   first frame for stream 7 is sent or received.
+   A HEADERS frame will transition the client-initiated stream
+   identified by the stream identifier in the frame header from "idle"
+   to "open".  A PUSH_PROMISE frame will transition the server-initiated
+   stream identified by the "Promised Stream ID" field in the frame
+   payload from "idle" to "reserved".  When a stream transitions out of
+   the "idle" state, all streams that might have been initiated by that
+   peer with a lower-valued stream identifier are implicitly
+   transitioned to "closed".  That is, an endpoint may skip a stream
+   identifier, with the effect being that the skipped stream is
+   immediately closed.
 
    Stream identifiers cannot be reused.  Long-lived connections can
    result in an endpoint exhausting the available range of stream
