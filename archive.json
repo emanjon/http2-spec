@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-02-04T00:43:27.251598+00:00",
+  "timestamp": "2021-02-07T00:45:35.406073+00:00",
   "repo": "httpwg/http2-spec",
   "labels": [
     {
@@ -18697,6 +18697,44 @@
       "updatedAt": "2021-02-02T09:20:24Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 815,
+      "id": "MDU6SXNzdWU4MDE5NjY4ODE=",
+      "title": "characters allowed in field values",
+      "url": "https://github.com/httpwg/http2-spec/issues/815",
+      "state": "OPEN",
+      "author": "reschke",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "<https://tools.ietf.org/html/rfc7540#section-10.3>:\r\n\r\n>  Similarly, HTTP/2 allows header field values that are not valid.\r\n   While most of the values that can be encoded will not alter header\r\n   field parsing, carriage return (CR, ASCII 0xd), line feed (LF, ASCII\r\n   0xa), and the zero character (NUL, ASCII 0x0) might be exploited by\r\n   an attacker if they are translated verbatim.  Any request or response\r\n   that contains a character not permitted in a header field value MUST\r\n   be treated as malformed (Section 8.1.2.6).  Valid characters are\r\n   defined by the \"field-content\" ABNF rule in Section 3.2 of [RFC7230].\r\n\r\nThere are multiple issues here:\r\n\r\n- it's confusing to say \"HTTP/2 allows\" when next they are actually forbidden with a MUST requirement; it might be better to say something like that the wire protocol in theory enables the transmission of these forbidden characters\r\n- this puts a normative requirement on top of the base spec; but so does the revision of the core specs (see https://github.com/httpwg/http-core/issues/683). We need to make sure that there are no conflicting requirements. It also should be checked whether the currently present requirements are actually implemented in UAs (and if they are not, what could be done about it)",
+      "createdAt": "2021-02-05T08:34:52Z",
+      "updatedAt": "2021-02-05T16:48:11Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "It would presumably be more accurate to say that \"HPACK allows\", right?",
+          "createdAt": "2021-02-05T14:04:23Z",
+          "updatedAt": "2021-02-05T14:04:23Z"
+        },
+        {
+          "author": "afrind",
+          "authorAssociation": "NONE",
+          "body": "HPACK also allows encoding a field line with an empty name.  I'm not sure this needs to be mentioned explicitly or not.",
+          "createdAt": "2021-02-05T16:41:52Z",
+          "updatedAt": "2021-02-05T16:41:52Z"
+        },
+        {
+          "author": "reschke",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> HPACK also allows encoding a field line with an empty name.\r\n\r\nWell, that's consistent with HTTP/1.1 :-)",
+          "createdAt": "2021-02-05T16:48:11Z",
+          "updatedAt": "2021-02-05T16:48:11Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -30162,7 +30200,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2021-01-28T07:54:05Z",
-      "updatedAt": "2021-01-28T08:49:34Z",
+      "updatedAt": "2021-02-05T15:45:19Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "894fb1ede3b6a86bd75ab5376cfb7f7db5b9bd1b",
@@ -30175,7 +30213,29 @@
       "mergeCommit": {
         "oid": "f862b6659dc5498ed9f6dccf1fcb83a0e341adf0"
       },
-      "comments": [],
+      "comments": [
+        {
+          "author": "reschke",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "hmmm.... where did this change go?",
+          "createdAt": "2021-02-05T06:33:24Z",
+          "updatedAt": "2021-02-05T06:33:24Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I don't know.  I re-added it.",
+          "createdAt": "2021-02-05T10:52:46Z",
+          "updatedAt": "2021-02-05T10:52:46Z"
+        },
+        {
+          "author": "reschke",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Something is weird. How did you \"re-add\" it? ",
+          "createdAt": "2021-02-05T15:45:19Z",
+          "updatedAt": "2021-02-05T15:45:19Z"
+        }
+      ],
       "reviews": [
         {
           "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTc4MDkyMzQw",
@@ -30204,13 +30264,13 @@
       "labels": [],
       "body": "This is fairly cursory at this stage.  The goal is to get the document\r\nfunctional first.  Next step is a full read-through for terminology.",
       "createdAt": "2021-02-02T06:31:39Z",
-      "updatedAt": "2021-02-02T21:28:27Z",
+      "updatedAt": "2021-02-05T16:59:23Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "7c6412d243604b986ea1cbad7f1a3f0f71d6a8d4",
       "headRepository": "martinthomson/http2v2",
       "headRefName": "semantics-refs",
-      "headRefOid": "f7ad17f58dfd3cffee8690900ae5b4309076bd71",
+      "headRefOid": "0b9bd4ee8f56b12008f39aca5b781959cc19d506",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -30233,37 +30293,37 @@
               "originalPosition": 5,
               "body": "We really don't have a section reference here?",
               "createdAt": "2021-02-02T08:33:55Z",
-              "updatedAt": "2021-02-02T10:56:56Z"
+              "updatedAt": "2021-02-05T05:13:28Z"
             },
             {
               "originalPosition": 72,
               "body": "Editorial nit: \"abstract HTTP message abstraction\". Aren't abstractions tautologically abstract? I think I'd propose deleting the first instance of the word \"abstract\".\r\n\r\n```suggestion\r\n        HTTP/2 defines a framing of the HTTP message abstraction\r\n```",
               "createdAt": "2021-02-02T08:40:46Z",
-              "updatedAt": "2021-02-02T10:56:56Z"
+              "updatedAt": "2021-02-05T05:13:28Z"
             },
             {
               "originalPosition": 95,
               "body": "I'm not sure about this reference. Section 5 is \"Fields\", but this doesn't define \"header section\" (though perplexingly does _use_ the term). \"Header section\" is defined in \u00a7 6.3. I think we should be referring to that instead. This also lines up nicely with the other references in this list, which point to \u00a7 6.4 and \u00a7 6.5.\r\n\r\n```suggestion\r\n              the header section (see <xref target=\"HTTP\" section=\"6.3\"/>),\r\n```",
               "createdAt": "2021-02-02T08:42:42Z",
-              "updatedAt": "2021-02-02T21:26:16Z"
+              "updatedAt": "2021-02-05T05:13:28Z"
             },
             {
               "originalPosition": 117,
               "body": "Should this reference be more specific, to \u00a7 15.2? \u00a7 15 is \"Status codes\", \u00a7 15.2 is \"Informational 1xx\".",
               "createdAt": "2021-02-02T08:45:21Z",
-              "updatedAt": "2021-02-02T10:56:56Z"
+              "updatedAt": "2021-02-05T05:13:28Z"
             },
             {
               "originalPosition": 239,
               "body": "Can we make this more specific? I think we could point at \u00a7 6.4 (\"Content\").\r\n\r\n```suggestion\r\n              content.  A response that is defined to have no content, as described in <xref target=\"HTTP\" section=\"6.4\"/>, can have a non-zero\r\n```",
               "createdAt": "2021-02-02T08:49:15Z",
-              "updatedAt": "2021-02-02T21:26:43Z"
+              "updatedAt": "2021-02-05T05:13:28Z"
             },
             {
               "originalPosition": 266,
               "body": "no-cache is \u00a7 5.2.2.3, not \u00a7 5.2.2.4.\r\n\r\n```suggestion\r\n          if the \"no-cache\" cache response directive is present; see <xref target=\"CACHE\" section=\"5.2.2.3\"/>) while the stream identified by the\r\n```",
               "createdAt": "2021-02-02T08:51:17Z",
-              "updatedAt": "2021-02-02T10:56:56Z"
+              "updatedAt": "2021-02-05T05:13:28Z"
             }
           ]
         },
@@ -30283,7 +30343,195 @@
               "originalPosition": 5,
               "body": "It's a very broad reference, it doesn't need to be precise.",
               "createdAt": "2021-02-02T21:25:41Z",
-              "updatedAt": "2021-02-02T21:28:27Z"
+              "updatedAt": "2021-02-05T05:13:28Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTgzNjQ1Mjk5",
+          "commit": {
+            "abbreviatedOid": "f7ad17f"
+          },
+          "author": "afrind",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-04T17:34:09Z",
+          "updatedAt": "2021-02-04T17:48:59Z",
+          "comments": [
+            {
+              "originalPosition": 269,
+              "body": "Does this setting also apply to trailer sections?",
+              "createdAt": "2021-02-04T17:34:09Z",
+              "updatedAt": "2021-02-05T05:13:28Z"
+            },
+            {
+              "originalPosition": 327,
+              "body": "Is 'header compression' still what you want here?",
+              "createdAt": "2021-02-04T17:37:00Z",
+              "updatedAt": "2021-02-05T05:13:28Z"
+            },
+            {
+              "originalPosition": 701,
+              "body": "Is this a MUST and/or is the message malformed otherwise?",
+              "createdAt": "2021-02-04T17:41:20Z",
+              "updatedAt": "2021-02-05T05:13:28Z"
+            },
+            {
+              "originalPosition": 916,
+              "body": "The setting applies to the size of a decompressed header list, which implicitly limits the size of the blocks (it is compression, after all).  Does that need to be called out more explicitly?",
+              "createdAt": "2021-02-04T17:45:25Z",
+              "updatedAt": "2021-02-05T05:13:28Z"
+            },
+            {
+              "originalPosition": 76,
+              "body": "HPACK compresses both fields and control data and applies to \"field lines\", but control data is not a field?  This might need more explanation.",
+              "createdAt": "2021-02-04T17:48:49Z",
+              "updatedAt": "2021-02-05T05:13:28Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTgzNjYzOTE0",
+          "commit": {
+            "abbreviatedOid": "f7ad17f"
+          },
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-04T17:54:40Z",
+          "updatedAt": "2021-02-04T17:55:43Z",
+          "comments": [
+            {
+              "originalPosition": 76,
+              "body": "Yeah I think this specific change doesn't read right to me. Is \"field block\" really right? That feels very strange.",
+              "createdAt": "2021-02-04T17:54:40Z",
+              "updatedAt": "2021-02-05T05:13:28Z"
+            },
+            {
+              "originalPosition": 269,
+              "body": "I thought we called this the \"field section\" above.",
+              "createdAt": "2021-02-04T17:55:10Z",
+              "updatedAt": "2021-02-05T05:13:28Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MDIwOTQx",
+          "commit": {
+            "abbreviatedOid": "f7ad17f"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-05T04:51:34Z",
+          "updatedAt": "2021-02-05T04:51:35Z",
+          "comments": [
+            {
+              "originalPosition": 327,
+              "body": "I think that it is still OK to call it header compression, especially as we aren't revising RFC 7541.  It is a little janky and it probably needs better explanation, but I don't see a better alternative.",
+              "createdAt": "2021-02-05T04:51:34Z",
+              "updatedAt": "2021-02-05T05:13:28Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MDIxMDg0",
+          "commit": {
+            "abbreviatedOid": "f7ad17f"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-05T04:52:00Z",
+          "updatedAt": "2021-02-05T04:52:00Z",
+          "comments": [
+            {
+              "originalPosition": 701,
+              "body": "There are MUSTs in other places.",
+              "createdAt": "2021-02-05T04:52:00Z",
+              "updatedAt": "2021-02-05T05:13:28Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MDI3ODky",
+          "commit": {
+            "abbreviatedOid": "f7ad17f"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-05T05:13:11Z",
+          "updatedAt": "2021-02-05T05:13:11Z",
+          "comments": [
+            {
+              "originalPosition": 76,
+              "body": "I've given this another go, with a more comprehensive rewrite of the first few paragraphs of this section.  Let me know if that reads better.",
+              "createdAt": "2021-02-05T05:13:11Z",
+              "updatedAt": "2021-02-05T05:13:28Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0Mzg1NDA4",
+          "commit": {
+            "abbreviatedOid": "0b9bd4e"
+          },
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-05T14:26:56Z",
+          "updatedAt": "2021-02-05T14:26:56Z",
+          "comments": [
+            {
+              "originalPosition": 76,
+              "body": "I do think it's better, yeah.",
+              "createdAt": "2021-02-05T14:26:56Z",
+              "updatedAt": "2021-02-05T14:26:56Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0NTE4Njkz",
+          "commit": {
+            "abbreviatedOid": "0b9bd4e"
+          },
+          "author": "afrind",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-05T16:48:21Z",
+          "updatedAt": "2021-02-05T16:59:23Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "'or decompressing' reads weirdly to me, since that doesn't apply to the action described: field lines -> field block.  Might be better to just say compression transforms field lines to field blocks and decompression transforms field blocks into field lines.",
+              "createdAt": "2021-02-05T16:48:22Z",
+              "updatedAt": "2021-02-05T16:59:23Z"
+            },
+            {
+              "originalPosition": 40,
+              "body": "would 'header field sections' read better?",
+              "createdAt": "2021-02-05T16:48:46Z",
+              "updatedAt": "2021-02-05T16:59:23Z"
+            },
+            {
+              "originalPosition": 25,
+              "body": "I feel like \"Field Section Compression and Decompression\" would be more consistent.",
+              "createdAt": "2021-02-05T16:53:27Z",
+              "updatedAt": "2021-02-05T16:59:23Z"
+            },
+            {
+              "originalPosition": 327,
+              "body": "I think we can call it field section compression everywhere in this document, and explain in the terms section how 7541 Header Compression applies?",
+              "createdAt": "2021-02-05T16:58:03Z",
+              "updatedAt": "2021-02-05T16:59:23Z"
             }
           ]
         }
@@ -30294,24 +30542,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTY2OTgxMTAw",
       "title": "Clarify that PRIORITY does not close streams.",
       "url": "https://github.com/httpwg/http2-spec/pull/813",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Lukasa",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "This is a first stab at #759. I've gone for a minimal change here, simply clarifying that only HEADERS and PUSH_PROMISE frames have the effect of implicitly closing streams.\r\n\r\nWhile I was writing this I did have a question that may need to be raised on-list: do HEADERS and PUSH_PROMISE only implicitly close streams if they are _accepted_? That is, if a client sends a HEADERS frame that triggers a stream error, does that HEADERS frame still implicitly close all streams with a lower stream ID that are in the \"idle\" state? This may also be worth clarifying.",
       "createdAt": "2021-02-03T16:47:23Z",
-      "updatedAt": "2021-02-04T00:07:30Z",
+      "updatedAt": "2021-02-05T02:30:57Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
-      "baseRefOid": "7c6412d243604b986ea1cbad7f1a3f0f71d6a8d4",
+      "baseRefOid": "0779af043f353e66d45dd2aa15ef69ff70130f57",
       "headRepository": "Lukasa/http2-spec",
       "headRefName": "cb-stream-state-priority",
-      "headRefOid": "8b229056287d866fbb751a46e8d94519bcc81bd6",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "4607a750884c4f24b65bafb4f38f7f4c2f967e16",
+      "closedAt": "2021-02-05T02:30:57Z",
+      "mergedAt": "2021-02-05T02:30:57Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "1cecb59df495df362274fbd9543275848367b05a"
+      },
       "comments": [],
       "reviews": [
         {
@@ -30330,7 +30580,73 @@
               "originalPosition": 7,
               "body": "I've a little trouble with the ambiguity regarding stream identifiers in PUSH_PROMISE.  I'm not clear on this, but it might be better to say:\r\n\r\n> Each type of stream transitions out of the \"idle\" state for one reason:\r\n> * A client-initiated stream becomes \"open\" when a HEADERS frame is sent on the stream.\r\n> * A server-initiated stream becomes \"reserved\" when a PUSH_PROMISE (sent on a request stream) promises a response on the stream.\r\n> When a stream transitions out of the \"idle\" state, all streams in that direction with lower-numbered stream identifiers that are also \"idle\" are closed.  That is, an endpoint can skip a stream identifier, with the effect being that the skipped stream is immediately closed.\r\n\r\nToo large a change?",
               "createdAt": "2021-02-04T00:07:30Z",
-              "updatedAt": "2021-02-04T00:07:30Z"
+              "updatedAt": "2021-02-04T11:40:26Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTgzMTAzMDEz",
+          "commit": {
+            "abbreviatedOid": "8b22905"
+          },
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-04T07:35:41Z",
+          "updatedAt": "2021-02-04T07:35:42Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "No, I think that's a good change. I may try to call out the specific stream identifier in the PUSH_PROMISE frame payload that is relevant here.",
+              "createdAt": "2021-02-04T07:35:41Z",
+              "updatedAt": "2021-02-04T11:40:26Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTgzMTA3NDQ3",
+          "commit": {
+            "abbreviatedOid": "93c6991"
+          },
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-02-04T07:43:11Z",
+          "updatedAt": "2021-02-04T07:43:11Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "Hmm, I abandoned that change a bit because it didn't read well with the paragraph above, so I've tried something else. Let me know how you feel about it.",
+              "createdAt": "2021-02-04T07:43:11Z",
+              "updatedAt": "2021-02-04T11:40:26Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTgzMjc4MTQ0",
+          "commit": {
+            "abbreviatedOid": "93c6991"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Like it.  Take the first, maybe take the second, and we can merge this one.",
+          "createdAt": "2021-02-04T11:07:39Z",
+          "updatedAt": "2021-02-04T11:08:54Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "```suggestion\r\n            by the stream identifier in the frame header from \"idle\" to \"open\". A <xref target=\"PUSH_PROMISE\" format=\"none\">PUSH_PROMISE</xref>\r\n```",
+              "createdAt": "2021-02-04T11:07:39Z",
+              "updatedAt": "2021-02-04T11:40:26Z"
+            },
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\r\n            frame will transition the server-initiated stream identified by the \"Promised Stream ID\" field in the frame payload from \"idle\" to \"reserved\". When\r\n```\r\n\r\n?",
+              "createdAt": "2021-02-04T11:08:17Z",
+              "updatedAt": "2021-02-04T11:40:26Z"
             }
           ]
         }
@@ -30371,6 +30687,46 @@
         }
       ],
       "reviews": []
+    },
+    {
+      "number": 816,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTY4NDQ0NzIx",
+      "title": "fix IETF area name",
+      "url": "https://github.com/httpwg/http2-spec/pull/816",
+      "state": "OPEN",
+      "author": "reschke",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Let's try this again.",
+      "createdAt": "2021-02-05T15:50:56Z",
+      "updatedAt": "2021-02-05T16:58:46Z",
+      "baseRepository": "httpwg/http2-spec",
+      "baseRefName": "main",
+      "baseRefOid": "1cecb59df495df362274fbd9543275848367b05a",
+      "headRepository": "reschke/http2-spec",
+      "headRefName": "patch-1",
+      "headRefOid": "23f7fc1030225da1faecc5608d5034ff66be7664",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0NTI3Nzk1",
+          "commit": {
+            "abbreviatedOid": "23f7fc1"
+          },
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "I'm as happy with this now as I was when I first reviewed it.",
+          "createdAt": "2021-02-05T16:58:46Z",
+          "updatedAt": "2021-02-05T16:58:46Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
