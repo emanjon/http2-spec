@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-02-07T00:45:35.406073+00:00",
+  "timestamp": "2021-02-11T00:44:25.676272+00:00",
   "repo": "httpwg/http2-spec",
   "labels": [
     {
@@ -17028,7 +17028,7 @@
       "id": "MDU6SXNzdWUyMDA3NzUxOTk=",
       "title": "Stream State and PRIORITY",
       "url": "https://github.com/httpwg/http2-spec/issues/759",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Scottmitch",
       "authorAssociation": "NONE",
       "assignees": [],
@@ -17037,8 +17037,8 @@
       ],
       "body": "What is the expected result in terms of stream state and any potential errors that should be generated from the following scenario:\r\n\r\n```\r\n1. Client [PRIORITY, id: 5] -> Server\r\n2. Client [HEADERS, id: 3] -> Server\r\n```\r\n\r\n## Option 1\r\nThe server accepts both frames. Stream `3` is OPEN and stream `5` remains in IDLE.\r\n\r\nThis behavior is verified in the h2spec verification tool via https://github.com/summerwind/h2spec/pull/67. Also see additional discussion there.\r\n\r\n## Option 2\r\nShould the use of stream ID `5` cause stream ID `3` (and all lower stream IDs) to be implicitly closed according to the section-5.1.1 (see [1])? This would mean after the server receives the frame from step (1) it thinks that stream ID `3` has been closed, and when the server receives the frame from step (2) it will respond with a connection error of type PROTOCOL_ERROR (see [2])?\r\n\r\n[1] https://tools.ietf.org/html/rfc7540#section-5.1.1\r\n> The first use of a new stream identifier implicitly closes all\r\n   streams in the \"idle\" state that might have been initiated by that\r\n   peer with a lower-valued stream identifier.\r\n\r\n[2] https://tools.ietf.org/html/rfc7540#section-5.1.1\r\n> An endpoint that\r\n   receives an unexpected stream identifier MUST respond with a\r\n   connection error (Section 5.4.1) of type PROTOCOL_ERROR.",
       "createdAt": "2017-01-14T02:48:59Z",
-      "updatedAt": "2021-01-28T09:24:15Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-08T21:40:11Z",
+      "closedAt": "2021-02-08T21:40:11Z",
       "comments": [
         {
           "author": "Scottmitch",
@@ -17060,6 +17060,20 @@
           "body": "Unsurprisingly, @Lukasa had what I think is [the definitive answer](https://lists.w3.org/Archives/Public/ietf-http-wg/2017JanMar/0049.html) from the thread in support of option 1 here.  We should try to clarify this further by making it clear that PRIORITY doesn't affect stream state (including for lower-numbered streams).\r\n\r\nAs this is now just editorial clarifications, I think that taking this as editorial is justified.  We can revisit if the changes start to look too scary.",
           "createdAt": "2021-01-28T09:24:15Z",
           "updatedAt": "2021-01-28T09:24:15Z"
+        },
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I believe we addressed this in #813.",
+          "createdAt": "2021-02-08T10:54:27Z",
+          "updatedAt": "2021-02-08T10:54:27Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Agreed.",
+          "createdAt": "2021-02-08T21:40:11Z",
+          "updatedAt": "2021-02-08T21:40:11Z"
         }
       ]
     },
@@ -17516,7 +17530,7 @@
       "labels": [],
       "body": "This has not been implemented, so can likely go.\r\n\r\nSee the discussion on https://github.com/martinthomson/http2v2/issues/2 for more context.",
       "createdAt": "2020-10-28T07:08:44Z",
-      "updatedAt": "2020-11-11T01:17:34Z",
+      "updatedAt": "2021-02-09T23:02:23Z",
       "closedAt": null,
       "comments": [
         {
@@ -17539,6 +17553,13 @@
           "body": "Seems to have support; does anyone have an issue with this?",
           "createdAt": "2020-11-11T01:17:33Z",
           "updatedAt": "2020-11-11T01:17:33Z"
+        },
+        {
+          "author": "ianswett",
+          "authorAssociation": "NONE",
+          "body": "As stated in today's meeting, this sounds good to me, but it's worth posting on the list.",
+          "createdAt": "2021-02-09T23:02:23Z",
+          "updatedAt": "2021-02-09T23:02:23Z"
         }
       ]
     },
@@ -17554,7 +17575,7 @@
       "labels": [],
       "body": "This probably needs a skeleton left over so that we can avoid interoperability problems that might arise from interactions with peers that still have them. There are some MUST-level requirements around parsing that would need to be identified and marked.\r\n\r\nSee https://github.com/martinthomson/http2v2/issues/3 for more discussion.",
       "createdAt": "2020-10-28T07:09:35Z",
-      "updatedAt": "2020-12-23T04:13:59Z",
+      "updatedAt": "2021-02-10T00:38:53Z",
       "closedAt": null,
       "comments": [
         {
@@ -17619,6 +17640,20 @@
           "body": "I remember people being against it, so it definitely would need discussion. I'd suggest doing so on-list. We're likely to have an interim in the new year, which might be useful if it's contentious.",
           "createdAt": "2020-12-23T04:13:59Z",
           "updatedAt": "2020-12-23T04:13:59Z"
+        },
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "It seems like draft-ietf-httpbis-priority-03 deprecates the original priority scheme. At least, that's the language it wants to use. It seems like we should at the very least consider updating the language in the document to note that the scheme is deprecated and to direct users to draft-ietf-httpbis-priority. I'd also like to save some bytes and remove the text discussing how the scheme works and direct users to RFC 7540 but I'm open to being persuaded on that point.",
+          "createdAt": "2021-02-09T21:23:31Z",
+          "updatedAt": "2021-02-09T21:23:31Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Discussed this at the 2021-02 interim and we'll verify on list.  People have committed to reviewing the proposed changes.\r\n\r\nWe do want to reference draft-ietf-httpbis-priority.  My current sense is that we'll be finished both at around the same time, so I am inclined to add the reference and consider taking it out if things slip rather than be scared of that possible eventuality.",
+          "createdAt": "2021-02-10T00:38:53Z",
+          "updatedAt": "2021-02-10T00:38:53Z"
         }
       ]
     },
@@ -17705,7 +17740,7 @@
       "labels": [],
       "body": "This probably is just frames and settings.  We'll have to make it clear that greased frames in particular aren't necessarily safe to send based on deployment experience.  See also [draft-bishop-httpbis-grease](https://mikebishop.github.io/http-misc-extensions/draft-bishop-httpbis-grease.html).",
       "createdAt": "2020-10-28T07:10:51Z",
-      "updatedAt": "2020-11-11T01:15:55Z",
+      "updatedAt": "2021-02-09T22:57:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -17721,6 +17756,13 @@
           "body": "This was discussed at the interim and there seemed to be support for adding grease where possible to H2. I don't think we need to go into the fine details of the greasing points / mechanisms, just have a general intent documented.",
           "createdAt": "2020-11-11T01:15:55Z",
           "updatedAt": "2020-11-11T01:15:55Z"
+        },
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I suspect it's going to be hard to do this without a new ALPN.",
+          "createdAt": "2021-02-09T22:57:40Z",
+          "updatedAt": "2021-02-09T22:57:40Z"
         }
       ]
     },
@@ -17943,15 +17985,15 @@
       "id": "MDU6SXNzdWU3MzExNzQ4Njg=",
       "title": "Design for 0-RTT",
       "url": "https://github.com/httpwg/http2-spec/issues/781",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "0-RTT is newer than h2. As it stands, when 0-RTT is used, the default settings apply because the server doesn't have any chance to send SETTINGS. That's decidedly suboptimal.\r\n\r\nSee https://github.com/martinthomson/http2v2/issues/11 for more discussion.",
       "createdAt": "2020-10-28T07:14:45Z",
-      "updatedAt": "2020-11-04T03:57:44Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-09T22:49:16Z",
+      "closedAt": "2021-02-09T22:49:16Z",
       "comments": [
         {
           "author": "wtarreau",
@@ -17980,6 +18022,13 @@
           "body": "I think that this would be relatively simple.  A setting that says \"you can rely on these parameters for the next connection\" in place of defaults.  And some accompanying rules about what that means for each setting.  For example, the stream limit would apply to the number of streams that can be opened in 0-RTT.  \r\n\r\nFor the most part, this would be a simple flag on each setting saying whether it should be saved or ignored.  There could be cases where saved/ignored is not sufficiently precise, so something would need to be worked out for that, if it is even possible at all.",
           "createdAt": "2020-11-04T03:57:44Z",
           "updatedAt": "2020-11-04T03:57:44Z"
+        },
+        {
+          "author": "mnot",
+          "authorAssociation": "MEMBER",
+          "body": "Discussed in Feb 2021 interim; close with no action.",
+          "createdAt": "2021-02-09T22:49:16Z",
+          "updatedAt": "2021-02-09T22:49:16Z"
         }
       ]
     },
@@ -18054,10 +18103,12 @@
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "editorial"
+      ],
       "body": "https://portswigger.net/daily-swig/researchers-exploit-http-2-wpa3-protocols-to-stage-highly-efficient-timeless-timing-attacks describes how HTTP/2 can be used to remove some network-induced jitter from the timing measurements. If your server has timing side channels, then putting requests that can be compared in the same IP packet ensures that the server receives them at the same time. This doesn't help if timing differences are masked by server queuing, CDNs or load balancers, or response delivery, but it can help reduce measurement noise.\r\n\r\nConsider documenting this.",
       "createdAt": "2020-10-28T07:16:41Z",
-      "updatedAt": "2020-11-04T01:13:20Z",
+      "updatedAt": "2021-02-09T22:41:26Z",
       "closedAt": null,
       "comments": [
         {
@@ -18077,11 +18128,13 @@
       "state": "OPEN",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "mnot"
+      ],
       "labels": [],
       "body": "@ianswett says:\r\n\r\nIt's not very widely used and many implementations either don't support it at all or don't support it in a way that improves end-user performance.\r\n\r\nThis sparked a lively discussion at https://github.com/martinthomson/http2v2/issues/16.",
       "createdAt": "2020-10-28T07:17:23Z",
-      "updatedAt": "2020-11-11T22:23:10Z",
+      "updatedAt": "2021-02-09T23:04:09Z",
       "closedAt": null,
       "comments": [
         {
@@ -18195,6 +18248,27 @@
           "body": "https://groups.google.com/a/chromium.org/d/msg/blink-dev/K3rYLvmQUBY/vOWBKZGoAQAJ",
           "createdAt": "2020-11-11T22:23:10Z",
           "updatedAt": "2020-11-11T22:23:10Z"
+        },
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@ianswett suggested calling out the current status: lack of support in browser APIs for push, pointy edges in the usage, and the limitations in the spread of its usage. I think this is a reasonable editorial change.",
+          "createdAt": "2021-02-09T22:35:20Z",
+          "updatedAt": "2021-02-09T22:35:20Z"
+        },
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@mnot to draft a document to encourage users to set the value to 0 by default and move on.",
+          "createdAt": "2021-02-09T22:37:25Z",
+          "updatedAt": "2021-02-09T22:37:25Z"
+        },
+        {
+          "author": "mnot",
+          "authorAssociation": "MEMBER",
+          "body": "Discussed at Feb 2021 interim; intent to document concerns / caveats, recommend sending setting = 0. @mnot to PR.",
+          "createdAt": "2021-02-09T22:37:49Z",
+          "updatedAt": "2021-02-09T22:37:49Z"
         }
       ]
     },
@@ -18210,7 +18284,7 @@
       "labels": [],
       "body": "@ianswett suggests:\r\n\r\nA substantial number of deployed clients and servers do not support the extensibility of SETTINGs or frames in HTTP/2. It may be preferable to mint a new alpn for HTTP2v2 rather than trying to exclude all these peers based on user-agent or other fingerprinting.\r\n\r\nFor existing implementations, this has relatively low cost and greatly reduces deployment risk. At some point, they can drop support for the old h2 alpn and let clients fall back to HTTP 1.1, just like many did when SPDY support was removed.\r\n\r\nMore discussion at https://github.com/martinthomson/http2v2/issues/17",
       "createdAt": "2020-10-28T07:18:06Z",
-      "updatedAt": "2020-11-11T21:40:23Z",
+      "updatedAt": "2021-02-09T22:31:06Z",
       "closedAt": null,
       "comments": [
         {
@@ -18268,6 +18342,13 @@
           "body": "Yes, the effect is that Alt-Svc would need extra entries, whether it is for shifting load or opportunistic upgrade.",
           "createdAt": "2020-11-11T21:40:23Z",
           "updatedAt": "2020-11-11T21:40:23Z"
+        },
+        {
+          "author": "mnot",
+          "authorAssociation": "MEMBER",
+          "body": "Discussed in Feb 2021 interim; bar is still high, waiting for a reason to do this to gain consensus.",
+          "createdAt": "2021-02-09T22:31:06Z",
+          "updatedAt": "2021-02-09T22:31:06Z"
         }
       ]
     },
@@ -18276,15 +18357,15 @@
       "id": "MDU6SXNzdWU3MzExNzcxNzQ=",
       "title": "Update the HPACK static table",
       "url": "https://github.com/httpwg/http2-spec/issues/788",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "@LPardue suggests:\r\n\r\nThe HPACK static table is a bit old. For QPACK we did some analysis and came up with a \"new\" table, which is probably quite old now itself.\r\n\r\nBecause the tables are different, they probably consume code size in implementations that provide H2 and H3 (unless people are being clever). Alignment of the tables might reduce overhead.\r\n\r\nI'm not going to push hard for doing this work. But it is worth asking the question now and answering it,\r\n\r\nSome discussion at https://github.com/martinthomson/http2v2/issues/19.",
       "createdAt": "2020-10-28T07:18:50Z",
-      "updatedAt": "2020-11-04T01:10:09Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-09T22:29:32Z",
+      "closedAt": "2021-02-09T22:29:32Z",
       "comments": [
         {
           "author": "Lukasa",
@@ -18327,6 +18408,13 @@
           "body": "Feeling here seems to be to NOT update the HPACK static table; if anyone feels strongly otherwise please articulate why.",
           "createdAt": "2020-11-04T01:10:09Z",
           "updatedAt": "2020-11-04T01:10:09Z"
+        },
+        {
+          "author": "mnot",
+          "authorAssociation": "MEMBER",
+          "body": "Discussed at Feb 2021 interim; no (will confirm on list).",
+          "createdAt": "2021-02-09T22:29:32Z",
+          "updatedAt": "2021-02-09T22:29:32Z"
         }
       ]
     },
@@ -18340,9 +18428,9 @@
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
-      "body": "I have no personal knowledge of this issue, but it came up on the #whatwg IRC channel. https://megamorf.gitlab.io/2019/08/27/safari-nsposixerrordomain-100-error-with-nginx-and-apache/ describes Safari rejecting responses that contain the `update` header field, while other browsers accept it. It'd be good to converge the major clients on a single behavior and, if that's not the behavior currently specified, update the spec to match.",
+      "body": "I have no personal knowledge of this issue, but it came up on the #whatwg IRC channel. https://megamorf.gitlab.io/2019/08/27/safari-nsposixerrordomain-100-error-with-nginx-and-apache/ describes Safari rejecting responses that contain the `upgrade` header field, while other browsers accept it. It'd be good to converge the major clients on a single behavior and, if that's not the behavior currently specified, update the spec to match.",
       "createdAt": "2020-11-04T23:47:08Z",
-      "updatedAt": "2020-11-05T08:59:37Z",
+      "updatedAt": "2021-02-09T22:48:23Z",
       "closedAt": null,
       "comments": [
         {
@@ -18397,13 +18485,25 @@
       "state": "OPEN",
       "author": "LPardue",
       "authorAssociation": "NONE",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "mnot"
+      ],
+      "labels": [
+        "editorial"
+      ],
       "body": "This request is motivated by reading RFC 7540 and remembering there's a section all about cookie crumbling.\r\n\r\nIs there an opportunity to borrow some of the words from https://www.mnot.net/blog/2018/11/27/header_compression?",
       "createdAt": "2020-11-11T10:44:04Z",
-      "updatedAt": "2020-11-11T10:44:04Z",
+      "updatedAt": "2021-02-09T23:04:51Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "mnot",
+          "authorAssociation": "MEMBER",
+          "body": "@mnot to try to condense into something appropriate and then we'll figure out where it might live.",
+          "createdAt": "2021-02-09T22:41:51Z",
+          "updatedAt": "2021-02-09T22:41:51Z"
+        }
+      ]
     },
     {
       "number": 791,
@@ -18707,10 +18807,12 @@
       "author": "reschke",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "editorial"
+      ],
       "body": "<https://tools.ietf.org/html/rfc7540#section-10.3>:\r\n\r\n>  Similarly, HTTP/2 allows header field values that are not valid.\r\n   While most of the values that can be encoded will not alter header\r\n   field parsing, carriage return (CR, ASCII 0xd), line feed (LF, ASCII\r\n   0xa), and the zero character (NUL, ASCII 0x0) might be exploited by\r\n   an attacker if they are translated verbatim.  Any request or response\r\n   that contains a character not permitted in a header field value MUST\r\n   be treated as malformed (Section 8.1.2.6).  Valid characters are\r\n   defined by the \"field-content\" ABNF rule in Section 3.2 of [RFC7230].\r\n\r\nThere are multiple issues here:\r\n\r\n- it's confusing to say \"HTTP/2 allows\" when next they are actually forbidden with a MUST requirement; it might be better to say something like that the wire protocol in theory enables the transmission of these forbidden characters\r\n- this puts a normative requirement on top of the base spec; but so does the revision of the core specs (see https://github.com/httpwg/http-core/issues/683). We need to make sure that there are no conflicting requirements. It also should be checked whether the currently present requirements are actually implemented in UAs (and if they are not, what could be done about it)",
       "createdAt": "2021-02-05T08:34:52Z",
-      "updatedAt": "2021-02-05T16:48:11Z",
+      "updatedAt": "2021-02-08T05:41:15Z",
       "closedAt": null,
       "comments": [
         {
@@ -18733,8 +18835,43 @@
           "body": "> HPACK also allows encoding a field line with an empty name.\r\n\r\nWell, that's consistent with HTTP/1.1 :-)",
           "createdAt": "2021-02-05T16:48:11Z",
           "updatedAt": "2021-02-05T16:48:11Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I hate having to do this, but what is possible and what is permissible need to be more clearly separated.",
+          "createdAt": "2021-02-08T01:07:33Z",
+          "updatedAt": "2021-02-08T01:07:33Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm going to tag this as editorial: the possible/permissible split is clearly editorial.  And we've decided to depend on the core docs, and whether or not it was clear before what was allowed or not, this is now very crisp in the core semantics.  I want to wait until we get #811 in before doing this though.",
+          "createdAt": "2021-02-08T05:41:14Z",
+          "updatedAt": "2021-02-08T05:41:14Z"
         }
       ]
+    },
+    {
+      "number": 817,
+      "id": "MDU6SXNzdWU4MDMxODI5NjE=",
+      "title": "Fix URL on repo",
+      "url": "https://github.com/httpwg/http2-spec/issues/817",
+      "state": "CLOSED",
+      "author": "martinthomson",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "mnot",
+        "tfpauly"
+      ],
+      "labels": [
+        "editorial"
+      ],
+      "body": "This currently still points at http2.github.io, which is badly out of date.  Referencing the spec is probably the best thing now.  @mnot or @tfpauly are probably the only ones with the necessary privileges.",
+      "createdAt": "2021-02-08T04:53:52Z",
+      "updatedAt": "2021-02-08T05:12:58Z",
+      "closedAt": "2021-02-08T05:12:58Z",
+      "comments": []
     }
   ],
   "pulls": [
@@ -30200,7 +30337,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2021-01-28T07:54:05Z",
-      "updatedAt": "2021-02-05T15:45:19Z",
+      "updatedAt": "2021-02-08T00:59:58Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "894fb1ede3b6a86bd75ab5376cfb7f7db5b9bd1b",
@@ -30234,6 +30371,13 @@
           "body": "Something is weird. How did you \"re-add\" it? ",
           "createdAt": "2021-02-05T15:45:19Z",
           "updatedAt": "2021-02-05T15:45:19Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "`git cherry-pick 23f7fc1; git push origin main`",
+          "createdAt": "2021-02-08T00:59:58Z",
+          "updatedAt": "2021-02-08T00:59:58Z"
         }
       ],
       "reviews": [
@@ -30264,18 +30408,26 @@
       "labels": [],
       "body": "This is fairly cursory at this stage.  The goal is to get the document\r\nfunctional first.  Next step is a full read-through for terminology.",
       "createdAt": "2021-02-02T06:31:39Z",
-      "updatedAt": "2021-02-05T16:59:23Z",
+      "updatedAt": "2021-02-08T01:06:46Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "7c6412d243604b986ea1cbad7f1a3f0f71d6a8d4",
       "headRepository": "martinthomson/http2v2",
       "headRefName": "semantics-refs",
-      "headRefOid": "0b9bd4ee8f56b12008f39aca5b781959cc19d506",
+      "headRefOid": "5c9cabf6c4375c03e6e59a4e74bb4e5eb0eaec6c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "\"field section compression\" it is.",
+          "createdAt": "2021-02-08T01:06:46Z",
+          "updatedAt": "2021-02-08T01:06:46Z"
+        }
+      ],
       "reviews": [
         {
           "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTgxMDk0Mzk3",
@@ -30293,37 +30445,37 @@
               "originalPosition": 5,
               "body": "We really don't have a section reference here?",
               "createdAt": "2021-02-02T08:33:55Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             },
             {
               "originalPosition": 72,
               "body": "Editorial nit: \"abstract HTTP message abstraction\". Aren't abstractions tautologically abstract? I think I'd propose deleting the first instance of the word \"abstract\".\r\n\r\n```suggestion\r\n        HTTP/2 defines a framing of the HTTP message abstraction\r\n```",
               "createdAt": "2021-02-02T08:40:46Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             },
             {
               "originalPosition": 95,
               "body": "I'm not sure about this reference. Section 5 is \"Fields\", but this doesn't define \"header section\" (though perplexingly does _use_ the term). \"Header section\" is defined in \u00a7 6.3. I think we should be referring to that instead. This also lines up nicely with the other references in this list, which point to \u00a7 6.4 and \u00a7 6.5.\r\n\r\n```suggestion\r\n              the header section (see <xref target=\"HTTP\" section=\"6.3\"/>),\r\n```",
               "createdAt": "2021-02-02T08:42:42Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             },
             {
               "originalPosition": 117,
               "body": "Should this reference be more specific, to \u00a7 15.2? \u00a7 15 is \"Status codes\", \u00a7 15.2 is \"Informational 1xx\".",
               "createdAt": "2021-02-02T08:45:21Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             },
             {
               "originalPosition": 239,
               "body": "Can we make this more specific? I think we could point at \u00a7 6.4 (\"Content\").\r\n\r\n```suggestion\r\n              content.  A response that is defined to have no content, as described in <xref target=\"HTTP\" section=\"6.4\"/>, can have a non-zero\r\n```",
               "createdAt": "2021-02-02T08:49:15Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             },
             {
               "originalPosition": 266,
               "body": "no-cache is \u00a7 5.2.2.3, not \u00a7 5.2.2.4.\r\n\r\n```suggestion\r\n          if the \"no-cache\" cache response directive is present; see <xref target=\"CACHE\" section=\"5.2.2.3\"/>) while the stream identified by the\r\n```",
               "createdAt": "2021-02-02T08:51:17Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             }
           ]
         },
@@ -30343,7 +30495,7 @@
               "originalPosition": 5,
               "body": "It's a very broad reference, it doesn't need to be precise.",
               "createdAt": "2021-02-02T21:25:41Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             }
           ]
         },
@@ -30363,31 +30515,31 @@
               "originalPosition": 269,
               "body": "Does this setting also apply to trailer sections?",
               "createdAt": "2021-02-04T17:34:09Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             },
             {
               "originalPosition": 327,
               "body": "Is 'header compression' still what you want here?",
               "createdAt": "2021-02-04T17:37:00Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             },
             {
               "originalPosition": 701,
               "body": "Is this a MUST and/or is the message malformed otherwise?",
               "createdAt": "2021-02-04T17:41:20Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             },
             {
               "originalPosition": 916,
               "body": "The setting applies to the size of a decompressed header list, which implicitly limits the size of the blocks (it is compression, after all).  Does that need to be called out more explicitly?",
               "createdAt": "2021-02-04T17:45:25Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             },
             {
               "originalPosition": 76,
               "body": "HPACK compresses both fields and control data and applies to \"field lines\", but control data is not a field?  This might need more explanation.",
               "createdAt": "2021-02-04T17:48:49Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             }
           ]
         },
@@ -30407,13 +30559,13 @@
               "originalPosition": 76,
               "body": "Yeah I think this specific change doesn't read right to me. Is \"field block\" really right? That feels very strange.",
               "createdAt": "2021-02-04T17:54:40Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             },
             {
               "originalPosition": 269,
               "body": "I thought we called this the \"field section\" above.",
               "createdAt": "2021-02-04T17:55:10Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             }
           ]
         },
@@ -30433,7 +30585,7 @@
               "originalPosition": 327,
               "body": "I think that it is still OK to call it header compression, especially as we aren't revising RFC 7541.  It is a little janky and it probably needs better explanation, but I don't see a better alternative.",
               "createdAt": "2021-02-05T04:51:34Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             }
           ]
         },
@@ -30453,7 +30605,7 @@
               "originalPosition": 701,
               "body": "There are MUSTs in other places.",
               "createdAt": "2021-02-05T04:52:00Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             }
           ]
         },
@@ -30473,7 +30625,7 @@
               "originalPosition": 76,
               "body": "I've given this another go, with a more comprehensive rewrite of the first few paragraphs of this section.  Let me know if that reads better.",
               "createdAt": "2021-02-05T05:13:11Z",
-              "updatedAt": "2021-02-05T05:13:28Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             }
           ]
         },
@@ -30493,7 +30645,7 @@
               "originalPosition": 76,
               "body": "I do think it's better, yeah.",
               "createdAt": "2021-02-05T14:26:56Z",
-              "updatedAt": "2021-02-05T14:26:56Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             }
           ]
         },
@@ -30513,25 +30665,25 @@
               "originalPosition": 31,
               "body": "'or decompressing' reads weirdly to me, since that doesn't apply to the action described: field lines -> field block.  Might be better to just say compression transforms field lines to field blocks and decompression transforms field blocks into field lines.",
               "createdAt": "2021-02-05T16:48:22Z",
-              "updatedAt": "2021-02-05T16:59:23Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             },
             {
               "originalPosition": 40,
               "body": "would 'header field sections' read better?",
               "createdAt": "2021-02-05T16:48:46Z",
-              "updatedAt": "2021-02-05T16:59:23Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             },
             {
               "originalPosition": 25,
               "body": "I feel like \"Field Section Compression and Decompression\" would be more consistent.",
               "createdAt": "2021-02-05T16:53:27Z",
-              "updatedAt": "2021-02-05T16:59:23Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             },
             {
               "originalPosition": 327,
               "body": "I think we can call it field section compression everywhere in this document, and explain in the terms section how 7541 Header Compression applies?",
               "createdAt": "2021-02-05T16:58:03Z",
-              "updatedAt": "2021-02-05T16:59:23Z"
+              "updatedAt": "2021-02-08T01:06:33Z"
             }
           ]
         }
@@ -30700,7 +30852,7 @@
       "labels": [],
       "body": "Let's try this again.",
       "createdAt": "2021-02-05T15:50:56Z",
-      "updatedAt": "2021-02-05T16:58:46Z",
+      "updatedAt": "2021-02-08T01:01:02Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "1cecb59df495df362274fbd9543275848367b05a",
@@ -30711,7 +30863,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "OK, this is weird.  I need to re-check my remotes.",
+          "createdAt": "2021-02-08T01:01:02Z",
+          "updatedAt": "2021-02-08T01:01:02Z"
+        }
+      ],
       "reviews": [
         {
           "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0NTI3Nzk1",
@@ -30727,6 +30887,34 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 818,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTY5MTU3Nzk5",
+      "title": "Correct WG name",
+      "url": "https://github.com/httpwg/http2-spec/pull/818",
+      "state": "MERGED",
+      "author": "mnot",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "The name of the wg is \"HTTP Working Group\" or just \"HTTP\". The data tracker abbreviation is httpbis.",
+      "createdAt": "2021-02-08T05:15:57Z",
+      "updatedAt": "2021-02-08T05:28:33Z",
+      "baseRepository": "httpwg/http2-spec",
+      "baseRefName": "main",
+      "baseRefOid": "ad2b717caaf5fbc6c01590cfd4b7dc5050e0a11a",
+      "headRepository": "httpwg/http2-spec",
+      "headRefName": "mnot-patch-1",
+      "headRefOid": "3683ddf235752136ecc1637439e8f2b316a41d68",
+      "closedAt": "2021-02-08T05:28:32Z",
+      "mergedAt": "2021-02-08T05:28:32Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "0f40174c671bc98684227698ba5a29279fa269c6"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
