@@ -1,6 +1,6 @@
   title: HTTP/2 Revision
   description: Revision of RFC7540, the HTTP/2 specification
-  remote_theme: httpwg/theme
+  remote_theme: httpwg/theme@main
   titles_from_headings:
     enabled:     true
     strip_title: true
