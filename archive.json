@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-02-11T00:44:25.676272+00:00",
+  "timestamp": "2021-02-14T00:45:59.739228+00:00",
   "repo": "httpwg/http2-spec",
   "labels": [
     {
@@ -17424,7 +17424,7 @@
       "labels": [],
       "body": "It's not clear to me from RFC 7540 how an endpoint should behave upon receiving a frame that is erroneous in more than one way.\r\n\r\nFor example, suppose a server receives the following frame when it has stream id 1 in half-closed (remote) state:\r\n\r\n```\r\n{\r\n\u00a0 length = 4\r\n\u00a0 type = HEADERS\r\n\u00a0 flags = PRIORITY\r\n\u00a0 stream id = 1\r\n\u00a0 E = 0\r\n\u00a0 stream dependency = 1\r\n}\r\n```\r\n\r\n- According to \u00a74.2, the frame \"MUST be treated as a connection error\" and the server \"MUST send an error code of FRAME_SIZE_ERROR\" (because the length of 4 \"is too small to contain mandatory frame data\", namely the weight and header block fragment fields);\r\n- According to \u00a75.1, the server \"MUST respond with a stream error (Section 5.4.2) of type STREAM_CLOSED\" (because a frame \"other than WINDOW_UPDATE, PRIORITY, or RST_STREAM\" was received for a stream that is in \"half-closed (remote)\" state); and\r\n- According to \u00a75.3.1, the server \"MUST treat this as a stream error (Section 5.4.2) of type PROTOCOL_ERROR\" (because \"a stream cannot depend on itself\").\r\n\r\nThat is to say, according to the RFC, the server MUST (at very least) respond to this frame with one GOAWAY frame and two RST_STREAM frames. \u00a0However, sending all these frames would violate other requirements:\r\n\r\n- According to \u00a75.4.1, \"after sending the GOAWAY frame for an error condition, the endpoint MUST close the TCP connection\". \u00a0This obviously prevents other frames from being sent.\r\n- According to \u00a75.1, sending a RST_STREAM transitions the stream to closed state, in which \"an endpoint MUST NOT send frames other than PRIORITY\". \u00a0This prevents any further RST_STREAM frames from being sent for the same stream.\r\n\r\nIn this particular case, it seems reasonable to me that the frame size error should halt further processing of the frame such that neither of the stream errors are even detected: after all, an incorrect frame size may indicate corruption (in which case the rest of the frame's data must also be suspect). \u00a0But this is neither clear from the spec nor might other cases be so clear cut.\r\n\r\nI see three possibilities, with a reasonably strong leaning toward the first:\r\n\r\n1. Clarify that further processing of frames SHOULD (or MUST?) be halted upon encountering an error (I suspect this is what most implementations currently do, irrespective that the RFC says they \"MUST\" behave otherwise?).\u00a0 But then the order of processing becomes significant: is it right that this should be left as an implementation detail, or should it be specified?\u00a0 After all, the above frame might trigger a STREAM_CLOSED stream error from one server and a FRAME_SIZE_ERROR connection error from another, with very different consequences:\u00a0how might these differences impact intermediaries, caching and retries?  Better I think for the order to be specified.\r\n\r\n2. Define a precedence to errors, and mandate that that with highest precedence be sent (for example, connection errors might have higher precedence than stream errors).\u00a0 But then endpoints must continue processing frames they know to be erroneous simply to discover whether any higher precedence errors also exist (at least until an error of the\u00a0highest possible precedence is encountered).\r\n\r\n3. Permit (require?) all errors arising from a single frame to be transmitted irrespective of any other errors the frame may also have triggered.  Again, endpoints would then continue processing frames that they know to be erroneous\u2014but the peer would then be fully informed of all problems in order that it is better able to recover.",
       "createdAt": "2020-09-28T15:56:20Z",
-      "updatedAt": "2020-10-31T16:34:01Z",
+      "updatedAt": "2021-02-12T17:20:36Z",
       "closedAt": null,
       "comments": [
         {
@@ -17461,6 +17461,13 @@
           "body": "QUIC has [a set of error handling principles](https://quicwg.org/base-drafts/draft-ietf-quic-transport.html#section-11-2) that I think h2 would benefit from.\r\n",
           "createdAt": "2020-10-30T08:26:43Z",
           "updatedAt": "2020-10-30T08:26:43Z"
+        },
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "See #819 for some proposed text to address this. We probably need to workshop it a bit.",
+          "createdAt": "2021-02-12T17:20:36Z",
+          "updatedAt": "2021-02-12T17:20:36Z"
         }
       ]
     },
@@ -18807,12 +18814,10 @@
       "author": "reschke",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [
-        "editorial"
-      ],
+      "labels": [],
       "body": "<https://tools.ietf.org/html/rfc7540#section-10.3>:\r\n\r\n>  Similarly, HTTP/2 allows header field values that are not valid.\r\n   While most of the values that can be encoded will not alter header\r\n   field parsing, carriage return (CR, ASCII 0xd), line feed (LF, ASCII\r\n   0xa), and the zero character (NUL, ASCII 0x0) might be exploited by\r\n   an attacker if they are translated verbatim.  Any request or response\r\n   that contains a character not permitted in a header field value MUST\r\n   be treated as malformed (Section 8.1.2.6).  Valid characters are\r\n   defined by the \"field-content\" ABNF rule in Section 3.2 of [RFC7230].\r\n\r\nThere are multiple issues here:\r\n\r\n- it's confusing to say \"HTTP/2 allows\" when next they are actually forbidden with a MUST requirement; it might be better to say something like that the wire protocol in theory enables the transmission of these forbidden characters\r\n- this puts a normative requirement on top of the base spec; but so does the revision of the core specs (see https://github.com/httpwg/http-core/issues/683). We need to make sure that there are no conflicting requirements. It also should be checked whether the currently present requirements are actually implemented in UAs (and if they are not, what could be done about it)",
       "createdAt": "2021-02-05T08:34:52Z",
-      "updatedAt": "2021-02-08T05:41:15Z",
+      "updatedAt": "2021-02-11T22:06:05Z",
       "closedAt": null,
       "comments": [
         {
@@ -18849,6 +18854,13 @@
           "body": "I'm going to tag this as editorial: the possible/permissible split is clearly editorial.  And we've decided to depend on the core docs, and whether or not it was clear before what was allowed or not, this is now very crisp in the core semantics.  I want to wait until we get #811 in before doing this though.",
           "createdAt": "2021-02-08T05:41:14Z",
           "updatedAt": "2021-02-08T05:41:14Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Discussed in the context of leading and trailing whitespace in -semantics.  I think that we should be clearer here about a few things:\r\n\r\n1. CRLF and NUL are strictly prohibited\r\n2. leading and trailing WS are strictly prohibited\r\n3. Maybe loosen the requirement a little so that it is less strict about adherence to the ABNF\r\n\r\nThat makes this non-editorial, I think.",
+          "createdAt": "2021-02-11T22:06:05Z",
+          "updatedAt": "2021-02-11T22:06:05Z"
         }
       ]
     },
@@ -30913,6 +30925,32 @@
       "mergeCommit": {
         "oid": "0f40174c671bc98684227698ba5a29279fa269c6"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 819,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTcyNjYxMTgw",
+      "title": "Clarify error handling when multiple errors are encountered.",
+      "url": "https://github.com/httpwg/http2-spec/pull/819",
+      "state": "OPEN",
+      "author": "Lukasa",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Resolves #770.",
+      "createdAt": "2021-02-12T17:20:22Z",
+      "updatedAt": "2021-02-12T17:20:22Z",
+      "baseRepository": "httpwg/http2-spec",
+      "baseRefName": "main",
+      "baseRefOid": "bdaf4abbac717d4ba643255ad91342175e031088",
+      "headRepository": "Lukasa/http2-spec",
+      "headRefName": "cb-multiple-errors",
+      "headRefOid": "31b1e511471e75e21f11600a38824e69219f12c0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
