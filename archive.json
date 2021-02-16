@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-02-14T00:45:59.739228+00:00",
+  "timestamp": "2021-02-16T00:44:37.601353+00:00",
   "repo": "httpwg/http2-spec",
   "labels": [
     {
@@ -30940,7 +30940,7 @@
       "labels": [],
       "body": "Resolves #770.",
       "createdAt": "2021-02-12T17:20:22Z",
-      "updatedAt": "2021-02-12T17:20:22Z",
+      "updatedAt": "2021-02-15T01:31:31Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "bdaf4abbac717d4ba643255ad91342175e031088",
@@ -30952,7 +30952,46 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTkwMTEyNTg2",
+          "commit": {
+            "abbreviatedOid": "31b1e51"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "I realize that the word \"handling\" is in the title, but I think that this really about reporting.  \"Handling\" implies that the errors are somehow dealt with, rather than having them cause stream or connection termination.\r\n\r\nI'm thinking we can change the title to \"Error Reporting\" on that basis.",
+          "createdAt": "2021-02-15T01:21:37Z",
+          "updatedAt": "2021-02-15T01:31:31Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\n          It is possible that an endpoint will encounter frames that would cause multiple errors. Implementations MAY discover\r\n          multiple errors during processing, but they SHOULD report at most one stream and one connection error as a result.\r\n```\r\n\r\nAnd then I think that we need a new paragraph, though you can join the text I suggest below.",
+              "createdAt": "2021-02-15T01:28:19Z",
+              "updatedAt": "2021-02-15T01:31:31Z"
+            },
+            {
+              "originalPosition": 8,
+              "body": "Unfortunately, I think that we can change our minds when we report a connection error.  And we can report stream errors after a connection error.  But we should advise against it.\r\n\r\n> The first stream error reported for a given stream prevents any other errors on that stream from being reported.  In comparison, the protocol permits multiple GOAWAY frames, though an endpoint SHOULD report just one type of connection errors unless a graceful shutdown (see $$SECTION) is cut short as a result of a connection error is encountered.",
+              "createdAt": "2021-02-15T01:29:02Z",
+              "updatedAt": "2021-02-15T01:31:31Z"
+            },
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\r\n          If an endpoint detects multiple different errors,\r\n```\r\n\r\nI don't think that we need to limit this to frame processing.",
+              "createdAt": "2021-02-15T01:29:48Z",
+              "updatedAt": "2021-02-15T01:31:31Z"
+            },
+            {
+              "originalPosition": 12,
+              "body": "```suggestion\r\n          it MAY choose to report any one of those errors. If a frame would cause a connection error, that error MUST be reported.\r\n```",
+              "createdAt": "2021-02-15T01:30:02Z",
+              "updatedAt": "2021-02-15T01:31:31Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
