@@ -3696,6 +3696,12 @@ Table of Contents
 
 12.1.  Normative References
 
+   [CACHE]    Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Caching", Work in Progress, Internet-Draft,
+              draft-ietf-httpbis-cache-14, 13 January 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
+              cache-14.txt>.
+
    [COMPRESSION]
               Peon, R. and H. Ruellan, "HPACK: Header Compression for
               HTTP/2", RFC 7541, May 2015,
@@ -3707,6 +3713,18 @@ Table of Contents
 
    [FIPS186]  NIST, "Digital Signature Standard (DSS)", FIPS PUB 186-4,
               July 2013, <http://dx.doi.org/10.6028/NIST.FIPS.186-4>.
+
+   [HTTP]     Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Semantics", Work in Progress, Internet-Draft,
+              draft-ietf-httpbis-semantics-14, 13 January 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
+              semantics-14.txt>.
+
+   [HTTP11]   Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP/1.1", Work in Progress, Internet-Draft, draft-
+              ietf-httpbis-messaging-14, 13 January 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
+              messaging-14.txt>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997,
@@ -3776,12 +3794,6 @@ Table of Contents
               <http://breachattack.com/resources/
               BREACH%20-%20SSL,%20gone%20in%2030%20seconds.pdf>.
 
-   [CACHE]    Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
-              Ed., "HTTP Caching", Work in Progress, Internet-Draft,
-              draft-ietf-httpbis-cache-14, 13 January 2021,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
-              cache-14.txt>.
-
    [DNS-TERMS]
               Hoffman, P., Sullivan, A., and K. Fujiwara, "DNS
               Terminology", BCP 219, RFC 8499, DOI 10.17487/RFC8499,
@@ -3792,18 +3804,6 @@ Table of Contents
               Navara, E., O'Connor, E., and S. Pfeiffer, "HTML5", W3C
               Recommendation REC-html5-20141028, 28 October 2014,
               <http://www.w3.org/TR/2014/REC-html5-20141028/>.
-
-   [HTTP]     Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
-              Ed., "HTTP Semantics", Work in Progress, Internet-Draft,
-              draft-ietf-httpbis-semantics-14, 13 January 2021,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
-              semantics-14.txt>.
-
-   [HTTP11]   Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
-              Ed., "HTTP/1.1", Work in Progress, Internet-Draft, draft-
-              ietf-httpbis-messaging-14, 13 January 2021,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
-              messaging-14.txt>.
 
    [RFC3749]  Hollenbeck, S., "Transport Layer Security Protocol
               Compression Methods", RFC 3749, May 2004,
