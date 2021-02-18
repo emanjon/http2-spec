@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-02-16T00:44:37.601353+00:00",
+  "timestamp": "2021-02-18T01:01:19.733255+00:00",
   "repo": "httpwg/http2-spec",
   "labels": [
     {
@@ -18053,9 +18053,31 @@
       ],
       "body": "The state machine diagram currently mentions EH/ES but each frame has its own definition which happens to always have the same value. Let's instead enumerate known flags with their values at one place, and mention for each frame which ones it supports or are forbidden. This will significantly simplify implementations and will cut the text. It might even lead to generalizing flag processing instead of repeating the text for each frame type.\r\n\r\nSuggested by @wtarreau; this is probably just editorial.",
       "createdAt": "2020-10-28T07:15:26Z",
-      "updatedAt": "2020-10-28T08:33:08Z",
+      "updatedAt": "2021-02-17T22:58:52Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Hmm, I looked at this a bit and I'm not sure this is editorial. [RFC 7540 \u00a7 4.1 \"Frame Format\"](https://tools.ietf.org/html/rfc7540#section-4) says:\r\n\r\n> Flags:  An 8-bit field reserved for boolean flags specific to the frame type.\r\n>\r\n> Flags are assigned semantics specific to the indicated frame type. Flags that have no defined semantics for a particular frame type MUST be ignored and MUST be left unset (0x0) when sending.\r\n\r\nThis seems to say three things, two of which make this editorial and one of which maybe doesn't. The latter paragraph makes two comments around flags having \"semantics specific to the indicated frame type\" and handling errors for flags that no semantics for a frame type.\r\n\r\nThe first paragraph, however, says \"flags specific to the frame type\". This is a bit different. It somewhat implies that the flag definitions themselves may be specific to each frame type. This reading is somewhat reinforced by [RFC 8336 (The ORIGIN HTTP/2 Frame) \u00a7 2.2 \"Processing ORIGIN Frames\"](https://tools.ietf.org/html/rfc8336#section-2.2) which says:\r\n\r\n> This specification does not define any flags for the ORIGIN frame, but future updates to this specification (through IETF consensus) might use them to change its semantics.  The first four flags (0x1, 0x2, 0x4, and 0x8) are reserved for backwards-incompatible changes; therefore, when any of them are set, the ORIGIN frame containing them MUST be ignored by clients conforming to this specification, unless the flag's semantics are understood.  The remaining flags are reserved for backwards-compatible changes and do not affect processing by clients conformant to this specification. \r\n\r\nThis is somewhat unclear but does appear to read as though ORIGIN reserves the right to use flag 0x1 for a purpose _other_ than END_STREAM (a flag that would never be meaningful on ORIGIN).\r\n\r\nDo we want to reconsider whether this is editorial?",
+          "createdAt": "2021-02-17T17:28:36Z",
+          "updatedAt": "2021-02-17T17:28:36Z"
+        },
+        {
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "body": "There's nothing special about `0x1` PING defines this for ACK",
+          "createdAt": "2021-02-17T18:34:13Z",
+          "updatedAt": "2021-02-17T18:34:13Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Here's what I came up with from the core spec:\r\n\r\n```\r\n01 - END_STREAM (DATA, HEADERS); ACK (SETTINGS, PING)\r\n02\r\n04 - END_HEADERS (HEADERS, PUSH_PROMISE, CONTINUATION)\r\n08 - PADDED (DATA, HEADERS, PUSH_PROMISE)\r\n10\r\n20 - PRIORITY (HEADERS)\r\n40\r\n80\r\n```\r\n\r\nIt might be worth tabulating these, but I don't see any way to avoid the definitions being attached to the frame type.  Maybe the simple tabulation is all that @wtarreau was looking for.",
+          "createdAt": "2021-02-17T22:58:52Z",
+          "updatedAt": "2021-02-17T22:58:52Z"
+        }
+      ]
     },
     {
       "number": 783,
@@ -18792,7 +18814,7 @@
       "id": "MDU6SXNzdWU3OTg5Nzg2MzQ=",
       "title": "Interim responses are messages",
       "url": "https://github.com/httpwg/http2-spec/issues/812",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -18801,8 +18823,8 @@
       ],
       "body": "The framing in HTTP/2 always treated informational status codes and the associated header section as part of the response, but the updated core specifications clearly make interim responses independent messages (which makes complete sense).  This requires a little different treatment than what we currently have.",
       "createdAt": "2021-02-02T06:32:56Z",
-      "updatedAt": "2021-02-02T09:20:24Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-18T00:59:22Z",
+      "closedAt": "2021-02-18T00:59:22Z",
       "comments": []
     },
     {
@@ -30413,24 +30435,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTY1NzAxMjA1",
       "title": "First pass on references to updated documents",
       "url": "https://github.com/httpwg/http2-spec/pull/811",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This is fairly cursory at this stage.  The goal is to get the document\r\nfunctional first.  Next step is a full read-through for terminology.",
       "createdAt": "2021-02-02T06:31:39Z",
-      "updatedAt": "2021-02-08T01:06:46Z",
+      "updatedAt": "2021-02-18T00:59:44Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "7c6412d243604b986ea1cbad7f1a3f0f71d6a8d4",
       "headRepository": "martinthomson/http2v2",
       "headRefName": "semantics-refs",
-      "headRefOid": "5c9cabf6c4375c03e6e59a4e74bb4e5eb0eaec6c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "4182ee1324fa8db10c8cb7a585b3d2075e453336",
+      "closedAt": "2021-02-18T00:59:21Z",
+      "mergedAt": "2021-02-18T00:59:21Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "6ae5655abd4f73048c8936c1ef99d6b4487da41e"
+      },
       "comments": [
         {
           "author": "martinthomson",
@@ -30438,6 +30462,13 @@
           "body": "\"field section compression\" it is.",
           "createdAt": "2021-02-08T01:06:46Z",
           "updatedAt": "2021-02-08T01:06:46Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This might need a double-check later, but it's too big to leave sitting.",
+          "createdAt": "2021-02-18T00:59:44Z",
+          "updatedAt": "2021-02-18T00:59:44Z"
         }
       ],
       "reviews": [
@@ -30457,37 +30488,37 @@
               "originalPosition": 5,
               "body": "We really don't have a section reference here?",
               "createdAt": "2021-02-02T08:33:55Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             },
             {
               "originalPosition": 72,
               "body": "Editorial nit: \"abstract HTTP message abstraction\". Aren't abstractions tautologically abstract? I think I'd propose deleting the first instance of the word \"abstract\".\r\n\r\n```suggestion\r\n        HTTP/2 defines a framing of the HTTP message abstraction\r\n```",
               "createdAt": "2021-02-02T08:40:46Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             },
             {
               "originalPosition": 95,
               "body": "I'm not sure about this reference. Section 5 is \"Fields\", but this doesn't define \"header section\" (though perplexingly does _use_ the term). \"Header section\" is defined in \u00a7 6.3. I think we should be referring to that instead. This also lines up nicely with the other references in this list, which point to \u00a7 6.4 and \u00a7 6.5.\r\n\r\n```suggestion\r\n              the header section (see <xref target=\"HTTP\" section=\"6.3\"/>),\r\n```",
               "createdAt": "2021-02-02T08:42:42Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             },
             {
               "originalPosition": 117,
               "body": "Should this reference be more specific, to \u00a7 15.2? \u00a7 15 is \"Status codes\", \u00a7 15.2 is \"Informational 1xx\".",
               "createdAt": "2021-02-02T08:45:21Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             },
             {
               "originalPosition": 239,
               "body": "Can we make this more specific? I think we could point at \u00a7 6.4 (\"Content\").\r\n\r\n```suggestion\r\n              content.  A response that is defined to have no content, as described in <xref target=\"HTTP\" section=\"6.4\"/>, can have a non-zero\r\n```",
               "createdAt": "2021-02-02T08:49:15Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             },
             {
               "originalPosition": 266,
               "body": "no-cache is \u00a7 5.2.2.3, not \u00a7 5.2.2.4.\r\n\r\n```suggestion\r\n          if the \"no-cache\" cache response directive is present; see <xref target=\"CACHE\" section=\"5.2.2.3\"/>) while the stream identified by the\r\n```",
               "createdAt": "2021-02-02T08:51:17Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             }
           ]
         },
@@ -30507,7 +30538,7 @@
               "originalPosition": 5,
               "body": "It's a very broad reference, it doesn't need to be precise.",
               "createdAt": "2021-02-02T21:25:41Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             }
           ]
         },
@@ -30527,31 +30558,31 @@
               "originalPosition": 269,
               "body": "Does this setting also apply to trailer sections?",
               "createdAt": "2021-02-04T17:34:09Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             },
             {
               "originalPosition": 327,
               "body": "Is 'header compression' still what you want here?",
               "createdAt": "2021-02-04T17:37:00Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             },
             {
               "originalPosition": 701,
               "body": "Is this a MUST and/or is the message malformed otherwise?",
               "createdAt": "2021-02-04T17:41:20Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             },
             {
               "originalPosition": 916,
               "body": "The setting applies to the size of a decompressed header list, which implicitly limits the size of the blocks (it is compression, after all).  Does that need to be called out more explicitly?",
               "createdAt": "2021-02-04T17:45:25Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             },
             {
               "originalPosition": 76,
               "body": "HPACK compresses both fields and control data and applies to \"field lines\", but control data is not a field?  This might need more explanation.",
               "createdAt": "2021-02-04T17:48:49Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             }
           ]
         },
@@ -30571,13 +30602,13 @@
               "originalPosition": 76,
               "body": "Yeah I think this specific change doesn't read right to me. Is \"field block\" really right? That feels very strange.",
               "createdAt": "2021-02-04T17:54:40Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             },
             {
               "originalPosition": 269,
               "body": "I thought we called this the \"field section\" above.",
               "createdAt": "2021-02-04T17:55:10Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             }
           ]
         },
@@ -30597,7 +30628,7 @@
               "originalPosition": 327,
               "body": "I think that it is still OK to call it header compression, especially as we aren't revising RFC 7541.  It is a little janky and it probably needs better explanation, but I don't see a better alternative.",
               "createdAt": "2021-02-05T04:51:34Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             }
           ]
         },
@@ -30617,7 +30648,7 @@
               "originalPosition": 701,
               "body": "There are MUSTs in other places.",
               "createdAt": "2021-02-05T04:52:00Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             }
           ]
         },
@@ -30637,7 +30668,7 @@
               "originalPosition": 76,
               "body": "I've given this another go, with a more comprehensive rewrite of the first few paragraphs of this section.  Let me know if that reads better.",
               "createdAt": "2021-02-05T05:13:11Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             }
           ]
         },
@@ -30657,7 +30688,7 @@
               "originalPosition": 76,
               "body": "I do think it's better, yeah.",
               "createdAt": "2021-02-05T14:26:56Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             }
           ]
         },
@@ -30677,25 +30708,25 @@
               "originalPosition": 31,
               "body": "'or decompressing' reads weirdly to me, since that doesn't apply to the action described: field lines -> field block.  Might be better to just say compression transforms field lines to field blocks and decompression transforms field blocks into field lines.",
               "createdAt": "2021-02-05T16:48:22Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             },
             {
               "originalPosition": 40,
               "body": "would 'header field sections' read better?",
               "createdAt": "2021-02-05T16:48:46Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             },
             {
               "originalPosition": 25,
               "body": "I feel like \"Field Section Compression and Decompression\" would be more consistent.",
               "createdAt": "2021-02-05T16:53:27Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             },
             {
               "originalPosition": 327,
               "body": "I think we can call it field section compression everywhere in this document, and explain in the terms section how 7541 Header Compression applies?",
               "createdAt": "2021-02-05T16:58:03Z",
-              "updatedAt": "2021-02-08T01:06:33Z"
+              "updatedAt": "2021-02-18T00:58:57Z"
             }
           ]
         }
@@ -30855,26 +30886,28 @@
     {
       "number": 816,
       "id": "MDExOlB1bGxSZXF1ZXN0NTY4NDQ0NzIx",
-      "title": "fix IETF area name",
+      "title": "fix IETF working group name",
       "url": "https://github.com/httpwg/http2-spec/pull/816",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "reschke",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Let's try this again.",
       "createdAt": "2021-02-05T15:50:56Z",
-      "updatedAt": "2021-02-08T01:01:02Z",
+      "updatedAt": "2021-02-18T01:01:08Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
-      "baseRefOid": "1cecb59df495df362274fbd9543275848367b05a",
+      "baseRefOid": "6ae5655abd4f73048c8936c1ef99d6b4487da41e",
       "headRepository": "reschke/http2-spec",
       "headRefName": "patch-1",
-      "headRefOid": "23f7fc1030225da1faecc5608d5034ff66be7664",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "9f48cdf47a4dd841fa39842a1b63b760ceb9372a",
+      "closedAt": "2021-02-18T01:01:08Z",
+      "mergedAt": "2021-02-18T01:01:08Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "dc996f14ecd9a6ff86cda67c5651dc098f7054cf"
+      },
       "comments": [
         {
           "author": "martinthomson",
@@ -30882,6 +30915,13 @@
           "body": "OK, this is weird.  I need to re-check my remotes.",
           "createdAt": "2021-02-08T01:01:02Z",
           "updatedAt": "2021-02-08T01:01:02Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "apparently we were OK, but the working group name change is enough; changed the title and merged",
+          "createdAt": "2021-02-18T01:01:04Z",
+          "updatedAt": "2021-02-18T01:01:04Z"
         }
       ],
       "reviews": [
@@ -30940,18 +30980,40 @@
       "labels": [],
       "body": "Resolves #770.",
       "createdAt": "2021-02-12T17:20:22Z",
-      "updatedAt": "2021-02-15T01:31:31Z",
+      "updatedAt": "2021-02-17T22:30:22Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "bdaf4abbac717d4ba643255ad91342175e031088",
       "headRepository": "Lukasa/http2-spec",
       "headRefName": "cb-multiple-errors",
-      "headRefOid": "31b1e511471e75e21f11600a38824e69219f12c0",
+      "headRefOid": "bfd399e400a434445b65a6b79deb2afdd1f5d5fb",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Thanks @martinthomson, ready for re-review I think.",
+          "createdAt": "2021-02-17T17:06:57Z",
+          "updatedAt": "2021-02-17T17:06:57Z"
+        },
+        {
+          "author": "Lukasa",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Oh, you proposed changing \"handling\" to \"reporting\": did you want to do that pervasively in this document?",
+          "createdAt": "2021-02-17T17:07:39Z",
+          "updatedAt": "2021-02-17T17:07:39Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Let's take that up separately.",
+          "createdAt": "2021-02-17T22:29:03Z",
+          "updatedAt": "2021-02-17T22:29:03Z"
+        }
+      ],
       "reviews": [
         {
           "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTkwMTEyNTg2",
@@ -30969,25 +31031,110 @@
               "originalPosition": 6,
               "body": "```suggestion\r\n          It is possible that an endpoint will encounter frames that would cause multiple errors. Implementations MAY discover\r\n          multiple errors during processing, but they SHOULD report at most one stream and one connection error as a result.\r\n```\r\n\r\nAnd then I think that we need a new paragraph, though you can join the text I suggest below.",
               "createdAt": "2021-02-15T01:28:19Z",
-              "updatedAt": "2021-02-15T01:31:31Z"
+              "updatedAt": "2021-02-17T17:06:21Z"
             },
             {
               "originalPosition": 8,
               "body": "Unfortunately, I think that we can change our minds when we report a connection error.  And we can report stream errors after a connection error.  But we should advise against it.\r\n\r\n> The first stream error reported for a given stream prevents any other errors on that stream from being reported.  In comparison, the protocol permits multiple GOAWAY frames, though an endpoint SHOULD report just one type of connection errors unless a graceful shutdown (see $$SECTION) is cut short as a result of a connection error is encountered.",
               "createdAt": "2021-02-15T01:29:02Z",
-              "updatedAt": "2021-02-15T01:31:31Z"
+              "updatedAt": "2021-02-17T17:06:21Z"
             },
             {
               "originalPosition": 11,
               "body": "```suggestion\r\n          If an endpoint detects multiple different errors,\r\n```\r\n\r\nI don't think that we need to limit this to frame processing.",
               "createdAt": "2021-02-15T01:29:48Z",
-              "updatedAt": "2021-02-15T01:31:31Z"
+              "updatedAt": "2021-02-17T17:06:21Z"
             },
             {
               "originalPosition": 12,
               "body": "```suggestion\r\n          it MAY choose to report any one of those errors. If a frame would cause a connection error, that error MUST be reported.\r\n```",
               "createdAt": "2021-02-15T01:30:02Z",
-              "updatedAt": "2021-02-15T01:31:31Z"
+              "updatedAt": "2021-02-17T17:06:21Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTkyNjg1NDg1",
+          "commit": {
+            "abbreviatedOid": "bfd399e"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks!",
+          "createdAt": "2021-02-17T22:30:14Z",
+          "updatedAt": "2021-02-17T22:30:22Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "```suggestion\r\n          it MAY choose to report any one of those errors. If a frame causes a connection error, that error MUST be reported.\r\n```",
+              "createdAt": "2021-02-17T22:30:14Z",
+              "updatedAt": "2021-02-17T22:30:22Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 820,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTc1MTAxMDE1",
+      "title": "Remove Upgrade mechanism.",
+      "url": "https://github.com/httpwg/http2-spec/pull/820",
+      "state": "OPEN",
+      "author": "Lukasa",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "HTTP/1.1 to HTTP/2 Upgrade was never widely deployed and has no\r\nparticular defenders. This change removes the text explaining and\r\ndefining the mechanism.\r\n\r\nResolves #772.\r\n\r\nThis change still requires discussion on the mailing list.",
+      "createdAt": "2021-02-17T17:50:19Z",
+      "updatedAt": "2021-02-17T21:40:14Z",
+      "baseRepository": "httpwg/http2-spec",
+      "baseRefName": "main",
+      "baseRefOid": "bdaf4abbac717d4ba643255ad91342175e031088",
+      "headRepository": "Lukasa/http2-spec",
+      "headRefName": "cb-remove-upgrade",
+      "headRefOid": "21489f4b9912765f4cd96a5607e113b741b8ef6b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTkyNjM2MzMx",
+          "commit": {
+            "abbreviatedOid": "21489f4"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-02-17T21:18:20Z",
+          "updatedAt": "2021-02-17T21:40:14Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Probably something for a different change, but \"discovery\" isn't really right.  The use of HTTP/2 for \"https\" is negotiated.",
+              "createdAt": "2021-02-17T21:18:21Z",
+              "updatedAt": "2021-02-17T21:40:14Z"
+            },
+            {
+              "originalPosition": 157,
+              "body": "```suggestion\r\n          application data octets of a connection.\r\n```\r\n\r\nMight as well make the statement general :)",
+              "createdAt": "2021-02-17T21:36:39Z",
+              "updatedAt": "2021-02-17T21:40:14Z"
+            },
+            {
+              "originalPosition": 190,
+              "body": "I think that Alexey's point here about marking this obsoleted is worthwhile.",
+              "createdAt": "2021-02-17T21:38:57Z",
+              "updatedAt": "2021-02-17T21:40:14Z"
+            },
+            {
+              "originalPosition": 229,
+              "body": "As this registry doesn't have a status column, we can leave this untouched, with the reference to 7540 left alone.",
+              "createdAt": "2021-02-17T21:40:01Z",
+              "updatedAt": "2021-02-17T21:40:15Z"
             }
           ]
         }
