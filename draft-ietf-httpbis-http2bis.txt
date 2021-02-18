@@ -3462,7 +3462,7 @@ Table of Contents
 
    As far as these create observable differences in behavior, they could
    be used as a basis for fingerprinting a specific client, as defined
-   in Section 1.8 of [HTML5].
+   in Section 3.2 of [PRIVACY].
 
    HTTP/2's preference for using a single TCP connection allows
    correlation of a user's activity on a site.  Reusing connections for
@@ -3829,15 +3829,16 @@ Table of Contents
               January 2019,
               <https://datatracker.ietf.org/doc/html/rfc8499>.
 
-   [HTML5]    Hickson, I., Berjon, R., Faulkner, S., Leithead, T., Doyle
-              Navara, E., O'Connor, E., and S. Pfeiffer, "HTML5", W3C
-              Recommendation REC-html5-20141028, 28 October 2014,
-              <http://www.w3.org/TR/2014/REC-html5-20141028/>.
-
    [NFLX-2019-002]
               Netflix, "HTTP/2 Denial of Service Advisory", 13 August
               2019, <https://github.com/Netflix/security-
               bulletins/blob/master/advisories/third-party/2019-002.md>.
+
+   [PRIVACY]  Cooper, A., Tschofenig, H., Aboba, B., Peterson, J.,
+              Morris, J., Hansen, M., and R. Smith, "Privacy
+              Considerations for Internet Protocols", RFC 6973,
+              DOI 10.17487/RFC6973, July 2013,
+              <https://datatracker.ietf.org/doc/html/rfc6973>.
 
    [RFC3749]  Hollenbeck, S., "Transport Layer Security Protocol
               Compression Methods", RFC 3749, May 2004,
