@@ -2,7 +2,7 @@
 
 
 
-HTTP                                                     M. Thomson, Ed.
+HTTPbis                                                  M. Thomson, Ed.
 Internet-Draft                                                   Mozilla
 Obsoletes: 7540, 8740 (if approved)                     C. Benfield, Ed.
 Intended status: Standards Track                              Apple Inc.
