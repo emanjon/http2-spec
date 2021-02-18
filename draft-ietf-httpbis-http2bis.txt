@@ -3295,40 +3295,69 @@ Table of Contents
    excessive number of server push streams can be treated as a stream
    error (Section 5.4.2) of type ENHANCE_YOUR_CALM.
 
-   Processing capacity cannot be guarded as effectively as state
-   capacity.
+   A number of HTTP/2 implementations were found to be vulnerable to
+   denial of service [NFLX-2019-002].  The following lists known ways
+   that implementations might be subject to denial of service attack:
 
-   The SETTINGS frame can be abused to cause a peer to expend additional
-   processing time.  This might be done by pointlessly changing SETTINGS
-   parameters, setting multiple undefined parameters, or changing the
-   same setting multiple times in the same frame.  WINDOW_UPDATE or
-   PRIORITY frames can be abused to cause an unnecessary waste of
-   resources.
+   *  Inefficient tracking of outstanding outbound frames can lead to
+      overload if an adversary can cause large numbers of frames to be
+      enqueued for sending.  A peer could use one of several techniques
+      to cause large numbers of frames to be generated:
 
-   Large numbers of small or empty frames can be abused to cause a peer
-   to expend time processing frame headers.  Note, however, that some
-   uses are entirely legitimate, such as the sending of an empty DATA or
-   CONTINUATION frame at the end of a stream.
+      -  Providing tiny increments to flow control in WINDOW_UPDATE
+         frames can cause a sender to generate a large number of DATA
+         frames.
 
-   Field section compression also offers some opportunities to waste
-   processing resources; see Section 7 of [COMPRESSION] for more details
-   on potential abuses.
+      -  An endpoint is required to respond to a PING frame.
 
-   Limits in SETTINGS parameters cannot be reduced instantaneously,
-   which leaves an endpoint exposed to behavior from a peer that could
-   exceed the new limits.  In particular, immediately after establishing
-   a connection, limits set by a server are not known to clients and
-   could be exceeded without being an obvious protocol violation.
+      -  Each SETTINGS frame requires acknowledgment.
 
-   All these features -- i.e., SETTINGS changes, small frames, field
-   section compression -- have legitimate uses.  These features become a
-   burden only when they are used unnecessarily or to excess.
+      -  An invalid request (or server push) can cause a peer to send
+         RST_STREAM frames in response.
 
-   An endpoint that doesn't monitor this behavior exposes itself to a
-   risk of denial-of-service attack.  Implementations SHOULD track the
-   use of these features and set limits on their use.  An endpoint MAY
-   treat activity that is suspicious as a connection error
-   (Section 5.4.1) of type ENHANCE_YOUR_CALM.
+   *  Large numbers of small or empty frames can be abused to cause a
+      peer to expend time processing frame headers.  Caution is required
+      here as some uses of small frames are entirely legitimate, such as
+      the sending of an empty DATA or CONTINUATION frame at the end of a
+      stream.
+
+   *  The SETTINGS frame might also be abused to cause a peer to expend
+      additional processing time.  This might be done by pointlessly
+      changing SETTINGS parameters, setting multiple undefined
+      parameters, or changing the same setting multiple times in the
+      same frame.
+
+   *  Handling reprioritization with PRIORITY frames can require
+      significant processing time and can lead to overload if many
+      PRIORITY frames are sent.
+
+   *  Field section compression also offers some opportunities to waste
+      processing resources; see Section 7 of [COMPRESSION] for more
+      details on potential abuses.
+
+   *  Limits in SETTINGS parameters cannot be reduced instantaneously,
+      which leaves an endpoint exposed to behavior from a peer that
+      could exceed the new limits.  In particular, immediately after
+      establishing a connection, limits set by a server are not known to
+      clients and could be exceeded without being an obvious protocol
+      violation.
+
+   *  An attacker can provide large amounts of flow control credit at
+      the HTTP/2 layer, but withhold credit at the TCP layer, preventing
+      frames from being sent.  An endpoint that constructs and remembers
+      frames for sending without considering TCP limits might be subject
+      to resource exhaustion.
+
+   Most of the features that might be exploited for denial of service --
+   i.e., SETTINGS changes, small frames, field section compression --
+   have legitimate uses.  These features become a burden only when they
+   are used unnecessarily or to excess.
+
+   An endpoint that doesn't monitor use of these features exposes itself
+   to a risk of denial of service.  Implementations SHOULD track the use
+   of these features and set limits on their use.  An endpoint MAY treat
+   activity that is suspicious as a connection error (Section 5.4.1) of
+   type ENHANCE_YOUR_CALM.
 
 10.5.1.  Limits on Field Block Size
 
@@ -3804,6 +3833,11 @@ Table of Contents
               Navara, E., O'Connor, E., and S. Pfeiffer, "HTML5", W3C
               Recommendation REC-html5-20141028, 28 October 2014,
               <http://www.w3.org/TR/2014/REC-html5-20141028/>.
+
+   [NFLX-2019-002]
+              Netflix, "HTTP/2 Denial of Service Advisory", 13 August
+              2019, <https://github.com/Netflix/security-
+              bulletins/blob/master/advisories/third-party/2019-002.md>.
 
    [RFC3749]  Hollenbeck, S., "Transport Layer Security Protocol
               Compression Methods", RFC 3749, May 2004,
