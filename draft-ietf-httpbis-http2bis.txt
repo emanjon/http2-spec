@@ -6,7 +6,7 @@ HTTPbis                                                  M. Thomson, Ed.
 Internet-Draft                                                   Mozilla
 Obsoletes: 7540, 8740 (if approved)                     C. Benfield, Ed.
 Intended status: Standards Track                              Apple Inc.
-Expires: 22 August 2021                                 18 February 2021
+Expires: 26 August 2021                                 22 February 2021
 
 
              Hypertext Transfer Protocol Version 2 (HTTP/2)
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 August 2021.
+   This Internet-Draft will expire on 26 August 2021.
 
 Copyright Notice
 
@@ -4190,7 +4190,8 @@ Acknowledgements
    *  Mike Bishop (Extensibility).
 
    *  Mark Nottingham, Julian Reschke, James Snell, Jeff Pinner, Mike
-      Bishop, and Herve Ruellan (Substantial editorial contributions).
+      Bishop, and Herv&#233; Ruellan (Substantial editorial
+      contributions).
 
    *  Kari Hurtta, Tatsuhiro Tsujikawa, Greg Wilkins, Poul-Henning Kamp,
       and Jonathan Thackray.
