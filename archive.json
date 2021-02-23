@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-02-21T00:47:16.472853+00:00",
+  "timestamp": "2021-02-23T00:45:19.625142+00:00",
   "repo": "httpwg/http2-spec",
   "labels": [
     {
@@ -17417,15 +17417,15 @@
       "id": "MDU6SXNzdWU3MTA2NDcxNzY=",
       "title": "Correct handling of HTTP/2 frames with multiple errors",
       "url": "https://github.com/httpwg/http2-spec/issues/770",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "eggyal",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "It's not clear to me from RFC 7540 how an endpoint should behave upon receiving a frame that is erroneous in more than one way.\r\n\r\nFor example, suppose a server receives the following frame when it has stream id 1 in half-closed (remote) state:\r\n\r\n```\r\n{\r\n\u00a0 length = 4\r\n\u00a0 type = HEADERS\r\n\u00a0 flags = PRIORITY\r\n\u00a0 stream id = 1\r\n\u00a0 E = 0\r\n\u00a0 stream dependency = 1\r\n}\r\n```\r\n\r\n- According to \u00a74.2, the frame \"MUST be treated as a connection error\" and the server \"MUST send an error code of FRAME_SIZE_ERROR\" (because the length of 4 \"is too small to contain mandatory frame data\", namely the weight and header block fragment fields);\r\n- According to \u00a75.1, the server \"MUST respond with a stream error (Section 5.4.2) of type STREAM_CLOSED\" (because a frame \"other than WINDOW_UPDATE, PRIORITY, or RST_STREAM\" was received for a stream that is in \"half-closed (remote)\" state); and\r\n- According to \u00a75.3.1, the server \"MUST treat this as a stream error (Section 5.4.2) of type PROTOCOL_ERROR\" (because \"a stream cannot depend on itself\").\r\n\r\nThat is to say, according to the RFC, the server MUST (at very least) respond to this frame with one GOAWAY frame and two RST_STREAM frames. \u00a0However, sending all these frames would violate other requirements:\r\n\r\n- According to \u00a75.4.1, \"after sending the GOAWAY frame for an error condition, the endpoint MUST close the TCP connection\". \u00a0This obviously prevents other frames from being sent.\r\n- According to \u00a75.1, sending a RST_STREAM transitions the stream to closed state, in which \"an endpoint MUST NOT send frames other than PRIORITY\". \u00a0This prevents any further RST_STREAM frames from being sent for the same stream.\r\n\r\nIn this particular case, it seems reasonable to me that the frame size error should halt further processing of the frame such that neither of the stream errors are even detected: after all, an incorrect frame size may indicate corruption (in which case the rest of the frame's data must also be suspect). \u00a0But this is neither clear from the spec nor might other cases be so clear cut.\r\n\r\nI see three possibilities, with a reasonably strong leaning toward the first:\r\n\r\n1. Clarify that further processing of frames SHOULD (or MUST?) be halted upon encountering an error (I suspect this is what most implementations currently do, irrespective that the RFC says they \"MUST\" behave otherwise?).\u00a0 But then the order of processing becomes significant: is it right that this should be left as an implementation detail, or should it be specified?\u00a0 After all, the above frame might trigger a STREAM_CLOSED stream error from one server and a FRAME_SIZE_ERROR connection error from another, with very different consequences:\u00a0how might these differences impact intermediaries, caching and retries?  Better I think for the order to be specified.\r\n\r\n2. Define a precedence to errors, and mandate that that with highest precedence be sent (for example, connection errors might have higher precedence than stream errors).\u00a0 But then endpoints must continue processing frames they know to be erroneous simply to discover whether any higher precedence errors also exist (at least until an error of the\u00a0highest possible precedence is encountered).\r\n\r\n3. Permit (require?) all errors arising from a single frame to be transmitted irrespective of any other errors the frame may also have triggered.  Again, endpoints would then continue processing frames that they know to be erroneous\u2014but the peer would then be fully informed of all problems in order that it is better able to recover.",
       "createdAt": "2020-09-28T15:56:20Z",
-      "updatedAt": "2021-02-12T17:20:36Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-22T22:48:36Z",
+      "closedAt": "2021-02-22T22:48:36Z",
       "comments": [
         {
           "author": "MikeBishop",
@@ -18560,7 +18560,7 @@
       "id": "MDU6SXNzdWU3NjgzNTAwNzE=",
       "title": "Use Unicode for names",
       "url": "https://github.com/httpwg/http2-spec/issues/791",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -18569,8 +18569,8 @@
       ],
       "body": "There are a number of places where we made some awkward compromises when it came to representing names.  We can undo those now.",
       "createdAt": "2020-12-16T00:59:31Z",
-      "updatedAt": "2020-12-16T00:59:31Z",
-      "closedAt": null,
+      "updatedAt": "2021-02-22T22:48:13Z",
+      "closedAt": "2021-02-22T22:48:13Z",
       "comments": []
     },
     {
@@ -18926,6 +18926,22 @@
       "createdAt": "2021-02-08T04:53:52Z",
       "updatedAt": "2021-02-08T05:12:58Z",
       "closedAt": "2021-02-08T05:12:58Z",
+      "comments": []
+    },
+    {
+      "number": 824,
+      "id": "MDU6SXNzdWU4MTM5MzE5MzQ=",
+      "title": "Any appropriate error code, including generic ones",
+      "url": "https://github.com/httpwg/http2-spec/issues/824",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "QUIC includes the following statement:\r\n\r\n>  In particular, an endpoint MAY use any applicable error code when it detects an error condition; a generic error code (such as PROTOCOL_VIOLATION or INTERNAL_ERROR) can always be used in place of specific error codes.\r\n\r\nI like this.  (No accident.  I wrote it.)\r\n\r\nShould HTTP/2 include a similar statement?  We have PROTOCOL_ERROR, which has a definition compatible with this statement, so I guess we're already there on as far as allowing a generic code goes.  Any sense in saying it explicitly?",
+      "createdAt": "2021-02-22T22:52:01Z",
+      "updatedAt": "2021-02-22T22:52:01Z",
+      "closedAt": null,
       "comments": []
     }
   ],
@@ -30047,7 +30063,7 @@
       "labels": [],
       "body": "The thinking has evolved considerably since the original reference was\r\nmade.  This is the right way to refer to this concept.\r\n\r\nCloses #771.",
       "createdAt": "2020-12-22T00:49:09Z",
-      "updatedAt": "2021-02-18T08:58:53Z",
+      "updatedAt": "2021-02-22T22:12:37Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "1e2a62afa9f5b439f92c30b1e495f8ca9025f5ee",
@@ -31017,24 +31033,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTcyNjYxMTgw",
       "title": "Clarify error handling when multiple errors are encountered.",
       "url": "https://github.com/httpwg/http2-spec/pull/819",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Lukasa",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Resolves #770.",
       "createdAt": "2021-02-12T17:20:22Z",
-      "updatedAt": "2021-02-18T10:18:59Z",
+      "updatedAt": "2021-02-22T22:49:05Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "bdaf4abbac717d4ba643255ad91342175e031088",
       "headRepository": "Lukasa/http2-spec",
       "headRefName": "cb-multiple-errors",
       "headRefOid": "091cdcfb24b08c7a3f7911ed280a1f4929ac6358",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-02-22T22:48:36Z",
+      "mergedAt": "2021-02-22T22:48:36Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "8817a822817063daa3fbd8cc6b5ef16155c42341"
+      },
       "comments": [
         {
           "author": "Lukasa",
@@ -31070,6 +31088,13 @@
           "body": "I agree, but as this is substantive, let's run this by the working group.",
           "createdAt": "2021-02-18T10:18:59Z",
           "updatedAt": "2021-02-18T10:18:59Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "As there is a draft deadline, I will open an issue for my niggle, and ask for forgiveness rather than permission.",
+          "createdAt": "2021-02-22T22:49:05Z",
+          "updatedAt": "2021-02-22T22:49:05Z"
         }
       ],
       "reviews": [
@@ -31244,7 +31269,7 @@
       "labels": [],
       "body": "After carefully reviewing the Netflix advisories, it was clear that the\r\nproblem was that implementations didn't read the original text.\r\n\r\nThe TCP window reduction attack in CVE-2019-9517 was not mentioned, and\r\nit is a clever exploit.  The rest were clearly already documented.\r\n\r\nI took the opportunity to restructure things a little bit.  The first\r\nfew CVEs were about causing the victim to enqueue a bunch of frames and\r\nthen exploit the fact that this queuing was badly inefficient.  Those\r\ngot a list of their own.\r\n\r\nI purposefully left CVE-2019-9516 out.  Though I am sad that people\r\ndidn't free() after malloc(), this is pretty much just a systematized\r\nmemory leak and I don't feel like calling that out in an RFC.  I've\r\ncited the disclosure page, so I think we're covered there anyway.\r\n\r\nCloses #775.",
       "createdAt": "2021-02-18T04:17:50Z",
-      "updatedAt": "2021-02-18T08:58:41Z",
+      "updatedAt": "2021-02-22T22:12:44Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "bd27c45b847e826430caab9327ad471dc4125261",
@@ -31293,7 +31318,7 @@
       "labels": [],
       "body": "Why these were not already is a mystery not worth investigating.  Fix it\r\ninstead.\r\n\r\nCloses #777 while we're at it.",
       "createdAt": "2021-02-18T04:22:19Z",
-      "updatedAt": "2021-02-18T08:57:44Z",
+      "updatedAt": "2021-02-22T22:12:49Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "dc996f14ecd9a6ff86cda67c5651dc098f7054cf",
@@ -31328,25 +31353,35 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTc1Mzk2NTQ2",
       "title": "Herv\u00e9 was the only one",
       "url": "https://github.com/httpwg/http2-spec/pull/823",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "That is, in text we added.\r\n\r\nI have an open question to rfc-interest@ regarding correcting the spelling of author names in references.  It's pretty clear [what Bodo thinks](https://www.bmoeller.de/) about the mangling we have done to his name in pursuit of ASCII and I'd like to correct that.  I didn't see any others that would appear in the final document (Herv\u00e9 is there too, but only first initials survive).\r\n\r\nCloses #791.",
       "createdAt": "2021-02-18T05:01:47Z",
-      "updatedAt": "2021-02-18T07:16:21Z",
+      "updatedAt": "2021-02-22T22:48:13Z",
       "baseRepository": "httpwg/http2-spec",
       "baseRefName": "main",
       "baseRefOid": "dc996f14ecd9a6ff86cda67c5651dc098f7054cf",
       "headRepository": "martinthomson/http2v2",
       "headRefName": "real-names-for-people",
       "headRefOid": "4e87273af97e10e3a408630129aa08894da683a1",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "closedAt": "2021-02-22T22:48:13Z",
+      "mergedAt": "2021-02-22T22:48:13Z",
+      "mergedBy": "martinthomson",
+      "mergeCommit": {
+        "oid": "a94270140b142345ca90e9bfe058bc7e139f862f"
+      },
+      "comments": [
+        {
+          "author": "martinthomson",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Based on feedback from the TRSE, I'm not going to update other names.  Referential integrity is - apparently - more important.",
+          "createdAt": "2021-02-22T22:48:09Z",
+          "updatedAt": "2021-02-22T22:48:09Z"
+        }
+      ],
       "reviews": [
         {
           "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTkyOTA4NzEz",
